@@ -1,4 +1,4 @@
-# SemanticNav — Exact UI Recreation from Reference Images
+# Internet-Explorer
 
 A responsive, high-fidelity, interactive frontend for **SemanticNav** built strictly with **HTML5, CSS3, and Vanilla JavaScript**, pixel-faithfully reconstructed according to the reference designs.
 
