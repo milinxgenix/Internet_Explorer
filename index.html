@@ -1,0 +1,3037 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SemanticNav — Web navigation made intelligent. Intent-first discovery to find the right websites, faster." />
+  <meta name="theme-color" content="#06183D" />
+  <title>SemanticNav — Web Navigation Made Intelligent</title>
+
+  <!-- Typography: High-quality Editorial Serif & Clean Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700;1,800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    (function() {
+      try {
+        var urlParams = new URLSearchParams(window.location.search);
+        var hashRaw = window.location.hash.replace(/^#\/?/, '');
+        var hashParams = new URLSearchParams(hashRaw);
+        var urlTheme = urlParams.get('theme') || hashParams.get('theme') || (hashRaw === 'light' || hashRaw === 'dark' ? hashRaw : null);
+        var storedTheme = localStorage.getItem('semanticnav_theme');
+        var theme = urlTheme || storedTheme || 'dark';
+        document.documentElement.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark');
+      } catch(e) {}
+    })();
+  </script>
+</head>
+<body class="page-body">
+
+  <!-- QUICK SCREEN SWITCHER DOCK (For evaluating all required screens instantly) -->
+  <aside class="screen-dock" id="screenDock" aria-label="Reference screen switcher">
+    <div class="dock-inner">
+      <span class="dock-label">
+        <svg class="dock-spark" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"/>
+        </svg>
+        <span>SCREENS:</span>
+      </span>
+      <div class="dock-buttons">
+        <button type="button" class="dock-btn active" data-screen="home">
+          <span class="dock-num">A</span>
+          <span>Homepage</span>
+        </button>
+        <button type="button" class="dock-btn" data-screen="login">
+          <span class="dock-num">01</span>
+          <span>Login</span>
+        </button>
+        <button type="button" class="dock-btn" data-screen="signup">
+          <span class="dock-num">02</span>
+          <span>Sign Up</span>
+        </button>
+        <button type="button" class="dock-btn" data-screen="explore">
+          <span class="dock-num">03</span>
+          <span>Explore Intent</span>
+        </button>
+        <button type="button" class="dock-btn" data-screen="results">
+          <span class="dock-num">04</span>
+          <span>Results</span>
+        </button>
+        <button type="button" class="dock-btn" data-screen="profile">
+          <span class="dock-num">05</span>
+          <span>Profile</span>
+        </button>
+      </div>
+      <button type="button" class="dock-toggle" id="dockToggle" aria-label="Minimize switcher" title="Toggle screen switcher">✕</button>
+    </div>
+  </aside>
+
+  <!-- MASTER ORNATE FRAME (Dark navy, royal blue, white, gold celestial edge + wave ribbons & botanical vines) -->
+  <div class="canvas-wrapper">
+    <div class="ornate-frame" id="appFrame">
+      
+      <!-- Vector Frame Ornaments & Illustrated Borders -->
+      <div class="frame-decorations" aria-hidden="true">
+        <!-- Top Starfield & Gold Dust -->
+        <div class="top-star-bar"></div>
+
+        <!-- Corner Flourish & Botanical Vines: Top-Left -->
+        <svg class="flourish corner-tl" width="130" height="130" viewBox="0 0 130 130" fill="none">
+          <path d="M2 128 V24 C2 12 12 2 24 2 H128" stroke="#124DC5" stroke-width="2.5" stroke-opacity="0.8"/>
+          <path d="M8 128 V28 C8 17 17 8 28 8 H128" stroke="#C7A96B" stroke-width="1.5" stroke-opacity="0.85"/>
+          <circle cx="26" cy="26" r="4.5" fill="#06183D" stroke="#C7A96B" stroke-width="1.5"/>
+          <circle cx="70" cy="8" r="2.5" fill="#66D8FF"/>
+          <circle cx="8" cy="70" r="2.5" fill="#66D8FF"/>
+          <path d="M38 14 L41 24 L51 27 L41 30 L38 40 L35 30 L25 27 L35 24 Z" fill="#C7A96B"/>
+        </svg>
+
+        <!-- Corner Flourish: Top-Right -->
+        <svg class="flourish corner-tr" width="130" height="130" viewBox="0 0 130 130" fill="none">
+          <path d="M128 128 V24 C128 12 118 2 106 2 H2" stroke="#124DC5" stroke-width="2.5" stroke-opacity="0.8"/>
+          <path d="M122 128 V28 C122 17 113 8 102 8 H2" stroke="#C7A96B" stroke-width="1.5" stroke-opacity="0.85"/>
+          <circle cx="104" cy="26" r="4.5" fill="#06183D" stroke="#C7A96B" stroke-width="1.5"/>
+          <circle cx="60" cy="8" r="2.5" fill="#66D8FF"/>
+          <circle cx="122" cy="70" r="2.5" fill="#66D8FF"/>
+          <path d="M92 14 L95 24 L105 27 L95 30 L92 40 L89 30 L79 27 L89 24 Z" fill="#C7A96B"/>
+        </svg>
+
+        <!-- Rich Botanical Vines: Bottom-Left Corner (Exact match to Reference Image A & B) -->
+        <svg class="botanical-corner corner-bl" width="190" height="210" viewBox="0 0 190 210" fill="none">
+          <!-- Main Stems -->
+          <path d="M4 206 C15 170 28 130 50 95 C65 70 95 45 130 35" stroke="#0B2B67" stroke-width="3" stroke-linecap="round"/>
+          <path d="M4 206 C25 185 45 155 75 140 C105 125 140 120 170 122" stroke="#124DC5" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M25 206 C40 180 65 165 95 162" stroke="#C7A96B" stroke-width="1.8" stroke-linecap="round"/>
+          
+          <!-- Leaf Pairs -->
+          <!-- Leaf 1 -->
+          <path d="M50 95 C40 80 42 65 58 68 C70 70 65 88 50 95 Z" fill="#0B2B67" stroke="#66D8FF" stroke-width="1"/>
+          <!-- Leaf 2 -->
+          <path d="M72 75 C68 58 78 48 90 54 C100 60 92 74 72 75 Z" fill="#124DC5" stroke="#FFFFFF" stroke-width="0.8"/>
+          <!-- Leaf 3 -->
+          <path d="M100 52 C102 36 116 32 124 40 C130 48 120 58 100 52 Z" fill="#0B2B67" stroke="#C7A96B" stroke-width="0.8"/>
+          <!-- Leaf 4 (Terminal) -->
+          <path d="M130 35 C142 22 158 24 162 34 C164 45 148 48 130 35 Z" fill="#246CF5" stroke="#66D8FF" stroke-width="1"/>
+          <!-- Leaf 5 -->
+          <path d="M75 140 C65 125 70 110 84 114 C96 118 90 134 75 140 Z" fill="#0B2B67" stroke="#124DC5" stroke-width="1"/>
+          <!-- Leaf 6 -->
+          <path d="M110 126 C115 110 130 106 138 116 C144 124 132 134 110 126 Z" fill="#124DC5" stroke="#FFFFFF" stroke-width="0.8"/>
+          <!-- Leaf 7 -->
+          <path d="M145 122 C152 108 168 110 172 120 C175 130 160 134 145 122 Z" fill="#246CF5" stroke="#66D8FF" stroke-width="0.8"/>
+          <!-- Gold Buds & Berries -->
+          <circle cx="58" cy="98" r="3.5" fill="#C7A96B"/>
+          <circle cx="94" cy="76" r="3" fill="#C7A96B"/>
+          <circle cx="126" cy="54" r="3" fill="#66D8FF"/>
+          <circle cx="86" cy="144" r="3" fill="#C7A96B"/>
+          <circle cx="132" cy="128" r="3" fill="#66D8FF"/>
+        </svg>
+
+        <!-- Rich Botanical Vines: Bottom-Right Corner (Exact match to Reference Image A & B) -->
+        <svg class="botanical-corner corner-br" width="190" height="210" viewBox="0 0 190 210" fill="none">
+          <!-- Main Stems -->
+          <path d="M186 206 C175 170 162 130 140 95 C125 70 95 45 60 35" stroke="#0B2B67" stroke-width="3" stroke-linecap="round"/>
+          <path d="M186 206 C165 185 145 155 115 140 C85 125 50 120 20 122" stroke="#124DC5" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M165 206 C150 180 125 165 95 162" stroke="#C7A96B" stroke-width="1.8" stroke-linecap="round"/>
+          
+          <!-- Leaf Pairs -->
+          <!-- Leaf 1 -->
+          <path d="M140 95 C150 80 148 65 132 68 C120 70 125 88 140 95 Z" fill="#0B2B67" stroke="#66D8FF" stroke-width="1"/>
+          <!-- Leaf 2 -->
+          <path d="M118 75 C122 58 112 48 100 54 C90 60 98 74 118 75 Z" fill="#124DC5" stroke="#FFFFFF" stroke-width="0.8"/>
+          <!-- Leaf 3 -->
+          <path d="M90 52 C88 36 74 32 66 40 C60 48 70 58 90 52 Z" fill="#0B2B67" stroke="#C7A96B" stroke-width="0.8"/>
+          <!-- Leaf 4 (Terminal) -->
+          <path d="M60 35 C48 22 32 24 28 34 C26 45 42 48 60 35 Z" fill="#246CF5" stroke="#66D8FF" stroke-width="1"/>
+          <!-- Leaf 5 -->
+          <path d="M115 140 C125 125 120 110 106 114 C94 118 100 134 115 140 Z" fill="#0B2B67" stroke="#124DC5" stroke-width="1"/>
+          <!-- Leaf 6 -->
+          <path d="M80 126 C75 110 60 106 52 116 C46 124 58 134 80 126 Z" fill="#124DC5" stroke="#FFFFFF" stroke-width="0.8"/>
+          <!-- Leaf 7 -->
+          <path d="M45 122 C38 108 22 110 18 120 C15 130 30 134 45 122 Z" fill="#246CF5" stroke="#66D8FF" stroke-width="0.8"/>
+          <!-- Gold Buds & Berries -->
+          <circle cx="132" cy="98" r="3.5" fill="#C7A96B"/>
+          <circle cx="96" cy="76" r="3" fill="#C7A96B"/>
+          <circle cx="64" cy="54" r="3" fill="#66D8FF"/>
+          <circle cx="104" cy="144" r="3" fill="#C7A96B"/>
+          <circle cx="58" cy="128" r="3" fill="#66D8FF"/>
+        </svg>
+
+        <!-- Bottom Flowing Wave-like Curved Decoration with Gold & Circuit Lines -->
+        <div class="bottom-wave-wrap">
+          <svg class="bottom-waves" viewBox="0 0 1280 84" preserveAspectRatio="none">
+            <!-- Background Deep Navy Ribbon -->
+            <path d="M0,45 C200,80 400,20 640,55 C880,90 1080,25 1280,60 L1280,84 L0,84 Z" fill="#06183D"/>
+            <!-- Royal Blue Ribbon -->
+            <path d="M0,52 C180,22 360,78 580,48 C800,18 1020,72 1280,42 L1280,84 L0,84 Z" fill="#0B2B67" fill-opacity="0.85"/>
+            <!-- Electric Blue Swirl -->
+            <path d="M0,62 C220,38 440,78 700,50 C960,22 1160,68 1280,52 L1280,84 L0,84 Z" fill="#124DC5" fill-opacity="0.7"/>
+            <!-- Crisp White Wave Crest Highlight -->
+            <path d="M0,54 C200,24 380,80 600,49 C820,18 1040,73 1280,44" stroke="#FFFFFF" stroke-width="2.5" stroke-opacity="0.9" fill="none"/>
+            <!-- Metallic Gold Ribbon Curve -->
+            <path d="M0,64 C240,86 480,36 720,68 C960,100 1140,40 1280,68" stroke="#C7A96B" stroke-width="2.8" stroke-opacity="0.95" fill="none"/>
+            <path d="M0,70 C240,92 480,42 720,74 C960,106 1140,46 1280,74" stroke="#FCE7B2" stroke-width="1.2" stroke-opacity="0.8" fill="none"/>
+            <!-- Futuristic Circuit Traces Beneath Waves -->
+            <line x1="180" y1="78" x2="350" y2="78" stroke="#66D8FF" stroke-width="1.5" stroke-dasharray="8 6"/>
+            <circle cx="350" cy="78" r="2.5" fill="#66D8FF"/>
+            <line x1="580" y1="78" x2="720" y2="78" stroke="#66D8FF" stroke-width="1.5" stroke-dasharray="10 8"/>
+            <circle cx="580" cy="78" r="2.5" fill="#66D8FF"/>
+            <line x1="920" y1="78" x2="1080" y2="78" stroke="#66D8FF" stroke-width="1.5" stroke-dasharray="8 6"/>
+            <circle cx="1080" cy="78" r="2.5" fill="#66D8FF"/>
+          </svg>
+        </div>
+
+        <!-- Celestial 4-Point & 8-Point Stars -->
+        <span class="celestial-star star-1">✦</span>
+        <span class="celestial-star star-2">✧</span>
+        <span class="celestial-star star-3">✦</span>
+        <span class="celestial-star star-4">⋆</span>
+        <span class="celestial-star star-5">✦</span>
+        <span class="celestial-star star-6">✧</span>
+      </div>
+
+      <!-- CELESTIAL SPACE SYSTEM: Floating Asteroids, Shooting Meteors & Cosmic Dust -->
+      <div class="celestial-space-system" id="celestialSpaceSystem" aria-hidden="true">
+        <!-- SVG Definitions (Symbols & Linear Gradients for Rocky Asteroids) -->
+        <svg class="celestial-svg-defs" style="display:none;" aria-hidden="true">
+          <defs>
+            <linearGradient id="astGradBodyA" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#243857"/>
+              <stop offset="45%" stop-color="#142136"/>
+              <stop offset="100%" stop-color="#080F1B"/>
+            </linearGradient>
+            <linearGradient id="astGradRimA" x1="0%" y1="0%" x2="80%" y2="60%">
+              <stop offset="0%" stop-color="#5DE1FF" stop-opacity="0.9"/>
+              <stop offset="45%" stop-color="#3985FF" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#142136" stop-opacity="0"/>
+            </linearGradient>
+
+            <linearGradient id="astGradBodyB" x1="15%" y1="0%" x2="85%" y2="100%">
+              <stop offset="0%" stop-color="#2A4064"/>
+              <stop offset="55%" stop-color="#16253D"/>
+              <stop offset="100%" stop-color="#09101C"/>
+            </linearGradient>
+            <linearGradient id="astGradRimB" x1="0%" y1="10%" x2="70%" y2="70%">
+              <stop offset="0%" stop-color="#7BE7FF" stop-opacity="0.85"/>
+              <stop offset="60%" stop-color="#246CF5" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#09101C" stop-opacity="0"/>
+            </linearGradient>
+
+            <!-- Symbol A: Medium Irregular Faceted Asteroid (34x32) -->
+            <g id="sym-asteroid-rock-a">
+              <path d="M 15 2 C 22 2, 28 5, 31 11 C 34 17, 32 23, 27 27 C 21 31, 14 31, 9 28 C 3 25, 1 19, 2 12 C 3 5, 8 2, 15 2 Z" fill="url(#astGradBodyA)" stroke="#3985FF" stroke-width="0.75" stroke-opacity="0.6"/>
+              <path d="M 5 8 Q 14 5 26 11 Q 23 20 11 25" stroke="url(#astGradRimA)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+              <ellipse cx="14" cy="14" rx="3.5" ry="2.8" transform="rotate(-15 14 14)" fill="#070E1A" stroke="#5DE1FF" stroke-width="0.6" stroke-opacity="0.6"/>
+              <circle cx="13" cy="13.2" r="1.4" fill="#040810"/>
+              <ellipse cx="23" cy="19" rx="2.4" ry="1.9" transform="rotate(20 23 19)" fill="#070E1A" stroke="#3985FF" stroke-width="0.5" stroke-opacity="0.5"/>
+              <circle cx="20" cy="7" r="0.8" fill="#D8B76C" opacity="0.85"/>
+            </g>
+
+            <!-- Symbol B: Rugged Angular Boulder (26x24) -->
+            <g id="sym-asteroid-rock-b">
+              <path d="M 12 2 C 18 2, 23 5, 25 11 C 26 17, 23 21, 17 23 C 11 24, 5 22, 3 17 C 1 12, 2 6, 7 3 C 8 2, 10 2, 12 2 Z" fill="url(#astGradBodyB)" stroke="#246CF5" stroke-width="0.75" stroke-opacity="0.55"/>
+              <path d="M 4 8 Q 12 5 22 10" stroke="url(#astGradRimB)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+              <ellipse cx="15" cy="14" rx="2.8" ry="2.2" transform="rotate(10 15 14)" fill="#070E1A" stroke="#5DE1FF" stroke-width="0.55" stroke-opacity="0.55"/>
+              <circle cx="14.3" cy="13.5" r="1.1" fill="#040810"/>
+              <circle cx="8" cy="18" r="0.6" fill="#D8B76C" opacity="0.8"/>
+            </g>
+
+            <!-- Symbol C: Large Elongated Asteroid Boulder (40x36) -->
+            <g id="sym-asteroid-rock-c">
+              <path d="M 18 2 C 26 1, 35 5, 38 13 C 40 21, 36 29, 29 33 C 21 36, 12 35, 6 30 C 1 25, 0 17, 3 10 C 6 4, 12 2, 18 2 Z" fill="url(#astGradBodyA)" stroke="#3985FF" stroke-width="0.85" stroke-opacity="0.65"/>
+              <path d="M 7 9 Q 18 5 33 13 Q 30 24 16 30" stroke="url(#astGradRimA)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+              <ellipse cx="18" cy="16" rx="4.2" ry="3.2" transform="rotate(-10 18 16)" fill="#060C17" stroke="#5DE1FF" stroke-width="0.65" stroke-opacity="0.65"/>
+              <circle cx="17" cy="15.2" r="1.8" fill="#03060C"/>
+              <ellipse cx="29" cy="22" rx="2.6" ry="2.0" transform="rotate(25 29 22)" fill="#060C17" stroke="#3985FF" stroke-width="0.5" stroke-opacity="0.5"/>
+              <ellipse cx="10" cy="22" rx="2.0" ry="1.6" fill="#060C17" stroke="#246CF5" stroke-width="0.45" stroke-opacity="0.45"/>
+              <circle cx="26" cy="8" r="1.0" fill="#D8B76C" opacity="0.9"/>
+            </g>
+
+            <!-- Symbol D: Compact Angular Micro-Fragment (20x18) -->
+            <g id="sym-asteroid-rock-d">
+              <path d="M 9 2 C 14 2, 18 5, 19 9 C 20 14, 17 17, 12 17 C 7 18, 3 16, 2 12 C 1 8, 3 4, 6 2 Z" fill="url(#astGradBodyB)" stroke="#5DE1FF" stroke-width="0.7" stroke-opacity="0.6"/>
+              <path d="M 3 6 Q 9 3 16 8" stroke="url(#astGradRimB)" stroke-width="1" stroke-linecap="round" fill="none"/>
+              <ellipse cx="10" cy="10" rx="2.0" ry="1.6" fill="#070E1A" stroke="#5DE1FF" stroke-width="0.45" stroke-opacity="0.5"/>
+              <circle cx="14" cy="5" r="0.6" fill="#D8B76C" opacity="0.8"/>
+            </g>
+          </defs>
+        </svg>
+
+        <!-- 1. Floating Rocky Asteroids with Independent 2D Drift & Rotation -->
+        <div class="space-asteroid-wrap asteroid-pos-1" title="Drifting Asteroid Alpha">
+          <svg class="space-asteroid-svg" width="34" height="32" viewBox="0 0 34 32">
+            <use href="#sym-asteroid-rock-a"/>
+          </svg>
+        </div>
+
+        <div class="space-asteroid-wrap asteroid-pos-2" title="Drifting Asteroid Beta">
+          <svg class="space-asteroid-svg" width="38" height="34" viewBox="0 0 40 36">
+            <use href="#sym-asteroid-rock-c"/>
+          </svg>
+        </div>
+
+        <div class="space-asteroid-wrap asteroid-pos-3" title="Drifting Asteroid Gamma">
+          <svg class="space-asteroid-svg" width="26" height="24" viewBox="0 0 26 24">
+            <use href="#sym-asteroid-rock-b"/>
+          </svg>
+        </div>
+
+        <div class="space-asteroid-wrap asteroid-pos-4" title="Drifting Asteroid Delta">
+          <svg class="space-asteroid-svg" width="30" height="28" viewBox="0 0 34 32">
+            <use href="#sym-asteroid-rock-a"/>
+          </svg>
+        </div>
+
+        <div class="space-asteroid-wrap asteroid-pos-5" title="Drifting Asteroid Epsilon">
+          <svg class="space-asteroid-svg" width="20" height="18" viewBox="0 0 20 18">
+            <use href="#sym-asteroid-rock-d"/>
+          </svg>
+        </div>
+
+        <div class="space-asteroid-wrap asteroid-pos-6" title="Drifting Asteroid Zeta">
+          <svg class="space-asteroid-svg" width="24" height="22" viewBox="0 0 26 24">
+            <use href="#sym-asteroid-rock-b"/>
+          </svg>
+        </div>
+
+        <!-- 2. Shooting Stars & Meteors with Tapered Luminous Trails and Flash Bursts -->
+        <div class="space-meteor meteor-path-1"></div>
+        <div class="space-meteor meteor-path-2"></div>
+        <div class="space-meteor meteor-path-3"></div>
+        <div class="space-meteor meteor-path-4"></div>
+
+        <!-- 3. Ambient Stardust Micro-Particles -->
+        <span class="space-dust dust-1"></span>
+        <span class="space-dust dust-2"></span>
+        <span class="space-dust dust-3"></span>
+        <span class="space-dust dust-4"></span>
+        <span class="space-dust dust-5"></span>
+        <span class="space-dust dust-6"></span>
+        <span class="space-dust dust-7"></span>
+        <span class="space-dust dust-8"></span>
+      </div>
+
+      <!-- PERSISTENT TOP NAVIGATION BAR (Exact match to Reference Images A & B) -->
+      <header class="semantic-header" id="mainHeader">
+        <div class="header-container">
+          
+          <!-- Minimal browser-style navigation: back button only -->
+          <div class="browser-controls-group">
+            <button
+              type="button"
+              class="browser-back-btn"
+              id="browserBackBtn"
+              aria-label="Go back to the previous screen"
+              title="Go back"
+            >
+              <svg
+                width="21"
+                height="21"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M19 12H5"></path>
+                <path d="m12 19-7-7 7-7"></path>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Brand: AI Processor Microchip Icon + Editorial Serif Wordmark -->
+          <a href="#" class="brand-link" id="brandHomeBtn" aria-label="SemanticNav Home">
+            <div class="ai-chip-icon" aria-hidden="true">
+              <!-- Microchip with AI letters inside and gold connector pins -->
+              <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+                <!-- Outer chip body -->
+                <rect x="6" y="6" width="22" height="22" rx="5" fill="#06183D" stroke="#124DC5" stroke-width="1.5"/>
+                <!-- Top & Bottom Connector Pins -->
+                <line x1="11" y1="2" x2="11" y2="6" stroke="#C7A96B" stroke-width="2" stroke-linecap="round"/>
+                <line x1="17" y1="2" x2="17" y2="6" stroke="#66D8FF" stroke-width="2" stroke-linecap="round"/>
+                <line x1="23" y1="2" x2="23" y2="6" stroke="#C7A96B" stroke-width="2" stroke-linecap="round"/>
+                
+                <line x1="11" y1="28" x2="11" y2="32" stroke="#C7A96B" stroke-width="2" stroke-linecap="round"/>
+                <line x1="17" y1="28" x2="17" y2="32" stroke="#66D8FF" stroke-width="2" stroke-linecap="round"/>
+                <line x1="23" y1="28" x2="23" y2="32" stroke="#C7A96B" stroke-width="2" stroke-linecap="round"/>
+
+                <!-- Left & Right Connector Pins -->
+                <line x1="2" y1="12" x2="6" y2="12" stroke="#C7A96B" stroke-width="2" stroke-linecap="round"/>
+                <line x1="2" y1="22" x2="6" y2="22" stroke="#C7A96B" stroke-width="2" stroke-linecap="round"/>
+                <line x1="28" y1="12" x2="32" y2="12" stroke="#C7A96B" stroke-width="2" stroke-linecap="round"/>
+                <line x1="28" y1="22" x2="32" y2="22" stroke="#C7A96B" stroke-width="2" stroke-linecap="round"/>
+                
+                <!-- Inner "AI" text -->
+                <text x="17" y="21" font-family="'DM Sans', sans-serif" font-weight="800" font-size="12" fill="#FFFFFF" text-anchor="middle" letter-spacing="0.5">AI</text>
+              </svg>
+            </div>
+            <span class="brand-text">
+              <span class="brand-semantic">Semantic</span><span class="brand-nav">Nav</span>
+            </span>
+          </a>
+
+          <!-- Primary Navigation Links: Home, Explore, Features, About with | separators -->
+          <nav class="nav-menu" id="primaryNav" aria-label="Main navigation">
+            <button type="button" class="nav-item active" data-nav="home" id="navHome">
+              <span>Home</span>
+            </button>
+            <span class="nav-divider" aria-hidden="true">|</span>
+            <button type="button" class="nav-item" data-nav="explore" id="navExplore">
+              <span>Explore</span>
+            </button>
+            <span class="nav-divider" aria-hidden="true">|</span>
+            <button type="button" class="nav-item" data-nav="features" id="navFeatures">
+              <span>Features</span>
+            </button>
+            <span class="nav-divider" aria-hidden="true">|</span>
+            <button type="button" class="nav-item" data-nav="about" id="navAbout">
+              <span>About</span>
+            </button>
+            <span class="nav-star-glyph" aria-hidden="true">✦</span>
+          </nav>
+
+          <!-- Navigation Right: Search Icon + Theme Toggle + Circular Profile Outline -->
+          <div class="header-actions">
+            <button type="button" class="action-btn action-search" id="headerSearchBtn" aria-label="Focus search" title="Quick Search (Ctrl+K)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="action-btn theme-toggle"
+              id="themeToggleBtn"
+              aria-label="Switch to dark theme"
+              title="Switch theme"
+              aria-pressed="false"
+            >
+              <svg
+                class="theme-icon theme-icon-sun"
+                width="21"
+                height="21"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="m4.93 4.93 1.42 1.42"></path>
+                <path d="m17.65 17.65 1.42 1.42"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="m4.93 19.07 1.42-1.42"></path>
+                <path d="m17.65 6.35 1.42-1.42"></path>
+              </svg>
+
+              <svg
+                class="theme-icon theme-icon-moon"
+                width="21"
+                height="21"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"></path>
+              </svg>
+            </button>
+            <button type="button" class="action-btn action-profile" id="headerProfileBtn" aria-label="Account menu" title="User Account">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 14a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path>
+                <path d="M6.168 18.849a6.5 6.5 0 0 1 11.664 0"></path>
+              </svg>
+            </button>
+            <button type="button" class="mobile-toggle" id="mobileMenuBtn" aria-label="Open mobile menu" aria-expanded="false">
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 1: MAIN HOMEPAGE (Reference Image A)                -->
+      <!-- ======================================================== -->
+      <section class="screen-view active-view" id="viewHome">
+        
+        <!-- Hero Section: Two-Column Composition -->
+        <div class="hero-section">
+          
+          <!-- Left Column: Eyebrow, Editorial Headline with Orbital Loop, Taglines & Long Search Bar -->
+          <div class="hero-left-col">
+            
+            <!-- 1. Small Eyebrow -->
+            <div class="eyebrow-container stacked-eyebrow">
+              <span class="eyebrow-line1">INTELLIGENT WEB NAVIGATION</span>
+            </div>
+
+            <!-- 2. Main Brand Heading with Clean Accent Line -->
+            <div class="headline-with-orbit-wrap">
+              <h1 class="hero-headline">
+                <span class="headline-semantic">Semantic</span><span class="headline-nav">Nav</span>
+              </h1>
+            </div>
+
+            <!-- 3. Supporting Headline -->
+            <h2 class="hero-supporting-headline">Find the right websites, faster.</h2>
+
+            <!-- 4. Short Description -->
+            <p class="hero-short-desc">Describe what you need in everyday language. SemanticNav helps you discover relevant websites, research, videos and tools.</p>
+
+            <!-- 5. Main Intent Search Bar -->
+            <form class="hero-search-bar search-bar" id="heroSearchForm" role="search">
+              <div class="search-input-prefix" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+              <input 
+                type="text" 
+                id="heroSearchInput" 
+                class="hero-search-input" 
+                placeholder="What are you trying to accomplish?" 
+                autocomplete="off" 
+                aria-label="What are you trying to accomplish?"
+              />
+              <button type="submit" class="circular-arrow-btn" id="heroSubmitBtn" aria-label="Execute search">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </form>
+
+            <!-- Short Example below search field -->
+            <div class="search-supporting-hint">
+              Example: Find beginner-friendly Python courses with practical projects.
+            </div>
+
+            <!-- 6. Small Row of Four Suggested-Intent Chips -->
+            <div class="hero-chips-row">
+              <span class="chips-label">SUGGESTED INTENTS:</span>
+              <button type="button" class="hero-intent-chip" data-query="Find beginner-friendly Python courses with practical projects">
+                Python courses
+              </button>
+              <button type="button" class="hero-intent-chip" data-query="compare reliable budget laptops for university">
+                Compare laptops
+              </button>
+              <button type="button" class="hero-intent-chip" data-query="find research papers on neural networks and transformers">
+                Research papers
+              </button>
+              <button type="button" class="hero-intent-chip" data-query="find free tools to edit PDFs online">
+                PDF tools
+              </button>
+            </div>
+
+            <!-- 7. Compact Three-Step Explanation & Primary CTA -->
+            <div class="hero-workflow-row">
+              <div class="hero-steps-compact" aria-label="How SemanticNav works in 3 steps">
+                <div class="compact-step">
+                  <span class="step-badge">01</span>
+                  <span class="step-text">Describe your goal</span>
+                </div>
+                <span class="step-arrow" aria-hidden="true">→</span>
+                <div class="compact-step">
+                  <span class="step-badge">02</span>
+                  <span class="step-text">Discover resources</span>
+                </div>
+                <span class="step-arrow" aria-hidden="true">→</span>
+                <div class="compact-step">
+                  <span class="step-badge">03</span>
+                  <span class="step-text">Open or save</span>
+                </div>
+              </div>
+
+              <button type="button" class="primary-explore-cta" data-switch="explore">
+                <span>Explore by intent</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+
+          </div>
+
+          <div class="hero-right-col">
+            <div class="ai-illustration-container" aria-label="Futuristic AI Brain and floating web panels illustration">
+              
+              <!-- Dark Starfield Background with Connected Constellation Nodes -->
+              <div class="ai-starry-backdrop">
+                <span class="space-star star-a">✦</span>
+                <span class="space-star star-b">✧</span>
+                <span class="space-star star-c">⋆</span>
+                <span class="space-star star-d">✦</span>
+                <span class="space-star star-e">✧</span>
+                <span class="space-star star-f">✦</span>
+                <span class="space-star star-g">⋆</span>
+                <span class="space-star star-h">✧</span>
+                <!-- Hero Asteroid Accent: Matches Rocky Irregular Silhouette -->
+                <div class="hero-asteroid-accent">
+                  <svg class="space-asteroid-svg" width="18" height="16" viewBox="0 0 20 18">
+                    <use href="#sym-asteroid-rock-d"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Space Art: Planetary/Orbital Boundary Curve SVG behind brain -->
+              <svg class="orbital-boundary-svg" viewBox="0 0 500 440" fill="none" aria-hidden="true">
+                <ellipse cx="250" cy="180" rx="200" ry="75" stroke="#3185FF" stroke-width="1.2" stroke-opacity="0.3" stroke-dasharray="6 8" transform="rotate(-10 250 180)"/>
+                <ellipse cx="250" cy="180" rx="180" ry="65" stroke="#C7A96B" stroke-width="1" stroke-opacity="0.35" transform="rotate(15 250 180)"/>
+              </svg>
+
+              <!-- Dedicated Composition Assembly Wrapper (Centering anchor for entire brain, pedestal & floating windows) -->
+              <div class="ai-composition-wrapper">
+
+              <!-- Connecting Neural Network Synapse Lines -->
+              <svg class="synapse-network-svg" viewBox="0 0 500 440" fill="none" aria-hidden="true">
+                <!-- Vector Beams from Brain to Floating Windows -->
+                <path d="M165 115 C 205 140 215 165 235 190" stroke="#66D8FF" stroke-width="1.8" stroke-dasharray="3 4" stroke-opacity="0.85"/>
+                <circle cx="165" cy="115" r="3" fill="#66D8FF"/>
+                
+                <path d="M335 115 C 295 140 285 165 265 190" stroke="#66D8FF" stroke-width="1.8" stroke-dasharray="3 4" stroke-opacity="0.85"/>
+                <circle cx="335" cy="115" r="3" fill="#66D8FF"/>
+                
+                <path d="M165 315 C 200 280 220 245 235 210" stroke="#246CF5" stroke-width="1.8" stroke-dasharray="3 4" stroke-opacity="0.85"/>
+                <circle cx="165" cy="315" r="3" fill="#246CF5"/>
+                
+                <path d="M335 315 C 300 280 280 245 265 210" stroke="#246CF5" stroke-width="1.8" stroke-dasharray="3 4" stroke-opacity="0.85"/>
+                <circle cx="335" cy="315" r="3" fill="#246CF5"/>
+
+                <!-- Orbital Ellipses around Brain -->
+                <ellipse cx="250" cy="190" rx="118" ry="40" stroke="#66D8FF" stroke-width="1.2" stroke-dasharray="4 6" stroke-opacity="0.6" transform="rotate(-10 250 190)"/>
+                <ellipse cx="250" cy="190" rx="108" ry="34" stroke="#C7A96B" stroke-width="1" stroke-opacity="0.5" transform="rotate(16 250 190)"/>
+                
+                <!-- Collimated Holographic Light Rays from Pedestal to Brain -->
+                <line x1="215" y1="300" x2="225" y2="225" stroke="#66D8FF" stroke-width="1.5" stroke-opacity="0.65"/>
+                <line x1="228" y1="305" x2="235" y2="220" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.85"/>
+                <line x1="242" y1="308" x2="245" y2="215" stroke="#66D8FF" stroke-width="2.8" stroke-opacity="0.95"/>
+                <line x1="258" y1="308" x2="255" y2="215" stroke="#66D8FF" stroke-width="2.8" stroke-opacity="0.95"/>
+                <line x1="272" y1="305" x2="265" y2="220" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.85"/>
+                <line x1="285" y1="300" x2="275" y2="225" stroke="#66D8FF" stroke-width="1.5" stroke-opacity="0.65"/>
+              </svg>
+
+              <!-- Central Holographic Neon AI Brain (True Anatomical Human Brain Form) -->
+              <div class="brain-sphere-wrapper">
+                <div class="brain-halo-glow"></div>
+                <div class="brain-core-sphere">
+                  <!-- Anatomical Human Neural Brain matching Reference Image A -->
+                  <svg class="brain-svg-art" width="220" height="185" viewBox="0 0 220 185" fill="none">
+                    <defs>
+                      <linearGradient id="leftHemiGrad" x1="25" y1="15" x2="105" y2="130" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#5DE1FF" stop-opacity="0.95"/>
+                        <stop offset="30%" stop-color="#3185FF" stop-opacity="0.9"/>
+                        <stop offset="65%" stop-color="#1856D8" stop-opacity="0.92"/>
+                        <stop offset="100%" stop-color="#06142F" stop-opacity="0.98"/>
+                      </linearGradient>
+                      <linearGradient id="rightHemiGrad" x1="195" y1="15" x2="115" y2="130" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#5DE1FF" stop-opacity="0.95"/>
+                        <stop offset="30%" stop-color="#3185FF" stop-opacity="0.9"/>
+                        <stop offset="65%" stop-color="#1856D8" stop-opacity="0.92"/>
+                        <stop offset="100%" stop-color="#06142F" stop-opacity="0.98"/>
+                      </linearGradient>
+                      <filter id="brainGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="2.2" result="glow"/>
+                        <feMerge>
+                          <feMergeNode in="glow"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+
+                    <!-- Left Cerebral Hemisphere with anatomical convolutions -->
+                    <path d="M 104,18 C 92,15 74,16 60,24 C 48,31 38,40 32,54 C 26,67 25,82 31,95 C 36,106 46,115 58,121 C 70,127 86,128 98,123 C 103,121 105,114 105,106 C 104,80 103,50 104,18 Z" 
+                          fill="url(#leftHemiGrad)" stroke="#5DE1FF" stroke-width="2.2" filter="url(#brainGlow)"/>
+
+                    <!-- Left Hemisphere Sulci & Gyri -->
+                    <g stroke="#5DE1FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+                      <path d="M 33,75 C 45,72 60,76 75,70 C 85,66 94,57 97,46"/>
+                      <path d="M 62,24 C 65,36 68,50 67,64" stroke="#FFFFFF" stroke-width="2"/>
+                      <path d="M 78,20 C 82,32 84,46 83,60"/>
+                      <path d="M 93,20 C 95,35 96,52 94,68" stroke="#FFFFFF" stroke-width="2"/>
+                      <path d="M 46,40 C 50,48 54,60 52,72"/>
+                      <path d="M 38,92 C 50,94 66,92 80,86 C 88,83 95,78 100,74"/>
+                      <path d="M 50,108 C 62,110 76,106 88,100" stroke="#3185FF"/>
+                      <path d="M 70,118 C 80,118 92,114 100,108" stroke="#3185FF"/>
+                    </g>
+
+                    <!-- Right Cerebral Hemisphere with anatomical convolutions -->
+                    <path d="M 116,18 C 128,15 146,16 160,24 C 172,31 182,40 188,54 C 194,67 195,82 189,95 C 184,106 174,115 162,121 C 150,127 134,128 122,123 C 117,121 115,114 115,106 C 116,80 117,50 116,18 Z" 
+                          fill="url(#rightHemiGrad)" stroke="#5DE1FF" stroke-width="2.2" filter="url(#brainGlow)"/>
+
+                    <!-- Right Hemisphere Sulci & Gyri -->
+                    <g stroke="#5DE1FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
+                      <path d="M 187,75 C 175,72 160,76 145,70 C 135,66 126,57 123,46"/>
+                      <path d="M 158,24 C 155,36 152,50 153,64" stroke="#FFFFFF" stroke-width="2"/>
+                      <path d="M 142,20 C 138,32 136,46 137,60"/>
+                      <path d="M 127,20 C 125,35 124,52 126,68" stroke="#FFFFFF" stroke-width="2"/>
+                      <path d="M 174,40 C 170,48 166,60 168,72"/>
+                      <path d="M 182,92 C 170,94 154,92 140,86 C 132,83 125,78 120,74"/>
+                      <path d="M 170,108 C 158,110 144,106 132,100" stroke="#3185FF"/>
+                      <path d="M 150,118 C 140,118 128,114 120,108" stroke="#3185FF"/>
+                    </g>
+
+                    <!-- Central Longitudinal Fissure (Separating Hemispheres) -->
+                    <line x1="110" y1="16" x2="110" y2="115" stroke="#06142F" stroke-width="4.5" stroke-linecap="round"/>
+                    <line x1="110" y1="16" x2="110" y2="115" stroke="#3185FF" stroke-width="1.5" stroke-dasharray="3 4" stroke-opacity="0.8"/>
+
+                    <!-- Synaptic Neural Mesh & Axons -->
+                    <g stroke="#5DE1FF" stroke-width="1.1" stroke-opacity="0.75">
+                      <line x1="60" y1="24" x2="78" y2="20"/><line x1="78" y1="20" x2="93" y2="20"/><line x1="93" y1="20" x2="104" y2="28"/>
+                      <line x1="60" y1="24" x2="46" y2="40"/><line x1="46" y1="40" x2="67" y2="45"/><line x1="67" y1="45" x2="83" y2="42"/><line x1="83" y1="42" x2="97" y2="46"/>
+                      <line x1="46" y1="40" x2="32" y2="58"/><line x1="32" y1="58" x2="52" y2="60"/><line x1="52" y1="60" x2="75" y2="70"/><line x1="75" y1="70" x2="94" y2="68"/>
+                      <line x1="32" y1="58" x2="38" y2="80"/><line x1="38" y1="80" x2="60" y2="82"/><line x1="60" y1="82" x2="80" y2="86"/><line x1="80" y1="86" x2="98" y2="88"/>
+                      <line x1="38" y1="80" x2="48" y2="102"/><line x1="48" y1="102" x2="68" y2="104"/><line x1="68" y1="104" x2="88" y2="100"/><line x1="88" y1="100" x2="102" y2="106"/>
+                      <line x1="160" y1="24" x2="142" y2="20"/><line x1="142" y1="20" x2="127" y2="20"/><line x1="127" y1="20" x2="116" y2="28"/>
+                      <line x1="160" y1="24" x2="174" y2="40"/><line x1="174" y1="40" x2="153" y2="45"/><line x1="153" y1="45" x2="137" y2="42"/><line x1="137" y1="42" x2="123" y2="46"/>
+                      <line x1="174" y1="40" x2="188" y2="58"/><line x1="188" y1="58" x2="168" y2="60"/><line x1="168" y1="60" x2="145" y2="70"/><line x1="145" y1="70" x2="126" y2="68"/>
+                      <line x1="188" y1="58" x2="182" y2="80"/><line x1="182" y1="80" x2="160" y2="82"/><line x1="160" y1="82" x2="140" y2="86"/><line x1="140" y1="86" x2="122" y2="88"/>
+                      <line x1="182" y1="80" x2="172" y2="102"/><line x1="172" y1="102" x2="152" y2="104"/><line x1="152" y1="104" x2="132" y2="100"/><line x1="132" y1="100" x2="118" y2="106"/>
+                      <line x1="97" y1="46" x2="123" y2="46" stroke="#FFFFFF" stroke-width="1.4"/>
+                      <line x1="94" y1="68" x2="126" y2="68" stroke="#FFFFFF" stroke-width="1.4"/>
+                      <line x1="98" y1="88" x2="122" y2="88" stroke="#FFFFFF" stroke-width="1.4"/>
+                    </g>
+
+                    <!-- Glowing Synaptic Nodes -->
+                    <g>
+                      <circle cx="60" cy="24" r="3" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="78" cy="20" r="3.2" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="93" cy="20" r="3" fill="#5DE1FF"/>
+                      <circle cx="104" cy="28" r="2.6" fill="#FFFFFF"/>
+                      <circle cx="46" cy="40" r="3" fill="#5DE1FF"/>
+                      <circle cx="67" cy="45" r="3.4" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="83" cy="42" r="3" fill="#5DE1FF"/>
+                      <circle cx="97" cy="46" r="3.8" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="32" cy="58" r="3.2" fill="#5DE1FF"/>
+                      <circle cx="52" cy="60" r="3" fill="#FFFFFF"/>
+                      <circle cx="75" cy="70" r="3.5" fill="#5DE1FF"/>
+                      <circle cx="94" cy="68" r="4" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="38" cy="80" r="3" fill="#5DE1FF"/>
+                      <circle cx="60" cy="82" r="3.2" fill="#FFFFFF"/>
+                      <circle cx="80" cy="86" r="3.2" fill="#5DE1FF"/>
+                      <circle cx="98" cy="88" r="3.5" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="48" cy="102" r="2.8" fill="#5DE1FF"/>
+                      <circle cx="68" cy="104" r="3.2" fill="#FFFFFF"/>
+                      <circle cx="88" cy="100" r="3" fill="#5DE1FF"/>
+                      <circle cx="102" cy="106" r="3.4" fill="#FFFFFF"/>
+                      <circle cx="160" cy="24" r="3" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="142" cy="20" r="3.2" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="127" cy="20" r="3" fill="#5DE1FF"/>
+                      <circle cx="116" cy="28" r="2.6" fill="#FFFFFF"/>
+                      <circle cx="174" cy="40" r="3" fill="#5DE1FF"/>
+                      <circle cx="153" cy="45" r="3.4" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="137" cy="42" r="3" fill="#5DE1FF"/>
+                      <circle cx="123" cy="46" r="3.8" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="188" cy="58" r="3.2" fill="#5DE1FF"/>
+                      <circle cx="168" cy="60" r="3" fill="#FFFFFF"/>
+                      <circle cx="145" cy="70" r="3.5" fill="#5DE1FF"/>
+                      <circle cx="126" cy="68" r="4" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="182" cy="80" r="3" fill="#5DE1FF"/>
+                      <circle cx="160" cy="82" r="3.2" fill="#FFFFFF"/>
+                      <circle cx="140" cy="86" r="3.2" fill="#5DE1FF"/>
+                      <circle cx="122" cy="88" r="3.5" fill="#FFFFFF" filter="url(#brainGlow)"/>
+                      <circle cx="172" cy="102" r="2.8" fill="#5DE1FF"/>
+                      <circle cx="152" cy="104" r="3.2" fill="#FFFFFF"/>
+                      <circle cx="132" cy="100" r="3" fill="#5DE1FF"/>
+                      <circle cx="118" cy="106" r="3.4" fill="#FFFFFF"/>
+                      <circle cx="110" cy="58" r="5.5" fill="#C7A96B" stroke="#FFFFFF" stroke-width="2" filter="url(#brainGlow)"/>
+                      <circle cx="110" cy="80" r="4.5" fill="#5DE1FF" stroke="#FFFFFF" stroke-width="1.8" filter="url(#brainGlow)"/>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Futuristic Holographic Base / Pedestal -->
+              <div class="ai-pedestal-base">
+                <div class="pedestal-hologram-rings">
+                  <div class="ring-disc ring-upper"></div>
+                  <div class="ring-disc ring-mid"></div>
+                </div>
+                <div class="pedestal-cylinder">
+                  <div class="pedestal-slit slit-one"></div>
+                  <div class="pedestal-slit slit-two"></div>
+                  <div class="pedestal-slit slit-three"></div>
+                </div>
+                <div class="pedestal-bottom-plate"></div>
+              </div>
+
+              <!-- Four Floating Windows Surrounding Brain (Exact match to Reference Images) -->
+              
+              <!-- 1. Top-Left: Window with Globe (🌐) -->
+              <div class="float-panel panel-globe" aria-label="Websites Globe Panel">
+                <div class="panel-header-dots">
+                  <span class="pdot dot-red"></span>
+                  <span class="pdot dot-yellow"></span>
+                  <span class="pdot dot-green"></span>
+                </div>
+                <div class="panel-inner-content">
+                  <div class="globe-icon-wrap">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#124DC5" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="2" y1="12" x2="22" y2="12"></line>
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                    </svg>
+                  </div>
+                  <div class="mock-bars-vert">
+                    <div class="mbar mbar-long"></div>
+                    <div class="mbar mbar-mid"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Top-Right: Window with Code </> -->
+              <div class="float-panel panel-code" aria-label="Code Panel">
+                <div class="panel-header-dots">
+                  <span class="pdot dot-red"></span>
+                  <span class="pdot dot-yellow"></span>
+                  <span class="pdot dot-green"></span>
+                </div>
+                <div class="panel-inner-content">
+                  <div class="code-symbol-wrap">&lt;/&gt;</div>
+                  <div class="mock-bars-vert">
+                    <div class="mbar mbar-long"></div>
+                    <div class="mbar mbar-short"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3. Bottom-Left: Window with Node Tree / Hierarchy Flowchart -->
+              <div class="float-panel panel-tree" aria-label="Structure Node Tree Panel">
+                <div class="panel-header-dots">
+                  <span class="pdot dot-red"></span>
+                  <span class="pdot dot-yellow"></span>
+                  <span class="pdot dot-green"></span>
+                </div>
+                <div class="panel-inner-content">
+                  <div class="tree-svg-wrap">
+                    <svg width="42" height="30" viewBox="0 0 42 30" fill="none">
+                      <!-- Top Node -->
+                      <rect x="16" y="2" width="10" height="7" rx="1.5" fill="#124DC5"/>
+                      <!-- Connecting Lines -->
+                      <line x1="21" y1="9" x2="21" y2="15" stroke="#124DC5" stroke-width="1.2"/>
+                      <line x1="6" y1="15" x2="36" y2="15" stroke="#124DC5" stroke-width="1.2"/>
+                      <line x1="6" y1="15" x2="6" y2="20" stroke="#124DC5" stroke-width="1.2"/>
+                      <line x1="21" y1="15" x2="21" y2="20" stroke="#124DC5" stroke-width="1.2"/>
+                      <line x1="36" y1="15" x2="36" y2="20" stroke="#124DC5" stroke-width="1.2"/>
+                      <!-- Bottom 3 Nodes -->
+                      <rect x="2" y="20" width="8" height="6" rx="1.5" fill="#66D8FF" stroke="#124DC5" stroke-width="1"/>
+                      <rect x="17" y="20" width="8" height="6" rx="1.5" fill="#66D8FF" stroke="#124DC5" stroke-width="1"/>
+                      <rect x="32" y="20" width="8" height="6" rx="1.5" fill="#66D8FF" stroke="#124DC5" stroke-width="1"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. Bottom-Right: Window with Document Page (📄) -->
+              <div class="float-panel panel-doc" aria-label="Document Panel">
+                <div class="panel-header-dots">
+                  <span class="pdot dot-red"></span>
+                  <span class="pdot dot-yellow"></span>
+                  <span class="pdot dot-green"></span>
+                </div>
+                <div class="panel-inner-content">
+                  <div class="doc-icon-wrap">
+                    <svg width="26" height="30" viewBox="0 0 24 28" fill="none" stroke="#124DC5" stroke-width="1.8">
+                      <path d="M4 2h10l6 6v18H4z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                      <line x1="8" y1="13" x2="16" y2="13" stroke="#66D8FF"></line>
+                      <line x1="8" y1="17" x2="16" y2="17" stroke="#66D8FF"></line>
+                      <line x1="8" y1="21" x2="12" y2="21" stroke="#66D8FF"></line>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /.ai-composition-wrapper -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Four Feature Cards in a Horizontal Row (Clean, balanced layout matching Reference Image A) -->
+        <div class="feature-cards-row">
+          
+          <!-- Card 1: Discover Functionality -->
+          <article class="feature-box feature-card card-with-vines" id="cardDiscover">
+            <!-- Subtle corner botanical accent strictly at outer edge -->
+            <svg class="card-vine vine-left" width="28" height="50" viewBox="0 0 28 50" fill="none" aria-hidden="true">
+              <path d="M2 50 C6 35 12 25 24 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M10 38 C7 30 11 25 18 28 C22 30 20 37 10 38 Z" fill="#1856D8" opacity="0.8"/>
+            </svg>
+            <span class="card-star-spark">✦</span>
+            
+            <div class="feature-icon-circle feature-icon-wrap">
+              <!-- Magnifying glass icon (matching Reference Image A) -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <h3 class="feature-box-title">Discover Functionality</h3>
+            <p class="feature-box-desc">Find relevant websites for your intent</p>
+            <button type="button" class="card-circle-arrow-btn" aria-label="Explore discover functionality" data-feature-query="find tools for interactive data visualization and discovery" data-feature-name="Discover Functionality">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </article>
+
+          <!-- Card 2: Adapts to Dynamic Interfaces -->
+          <article class="feature-box feature-card card-with-vines" id="cardAdapts">
+            <!-- Subtle corner botanical accent -->
+            <svg class="card-vine vine-corner-bl" width="28" height="36" viewBox="0 0 28 36" fill="none" aria-hidden="true">
+              <path d="M2 36 C8 24 16 16 26 8" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 26 C8 18 14 14 20 17 C22 19 20 25 12 26 Z" fill="#1856D8" opacity="0.8"/>
+            </svg>
+            <span class="card-star-spark">✧</span>
+
+            <div class="feature-icon-circle feature-icon-wrap">
+              <!-- Mechanical Gear icon (matching Reference Image A) -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+            </div>
+            <h3 class="feature-box-title">Adapts to Dynamic Interfaces</h3>
+            <p class="feature-box-desc">Works across different website designs</p>
+            <button type="button" class="card-circle-arrow-btn" aria-label="Explore dynamic interfaces" data-feature-query="web design inspiration with modern responsive dynamic interfaces" data-feature-name="Adapts to Dynamic Interfaces">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </article>
+
+          <!-- Card 3: Understands Your Intent -->
+          <article class="feature-box feature-card card-with-vines" id="cardIntent">
+            <!-- Subtle corner botanical accent -->
+            <svg class="card-vine vine-left" width="28" height="50" viewBox="0 0 28 50" fill="none" aria-hidden="true">
+              <path d="M2 50 C6 35 12 25 24 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M10 38 C7 30 11 25 18 28 C22 30 20 37 10 38 Z" fill="#1856D8" opacity="0.8"/>
+            </svg>
+            <span class="card-star-spark">✦</span>
+
+            <div class="feature-icon-circle feature-icon-wrap">
+              <!-- Incandescent Lightbulb icon (matching Reference Image A) -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18h6"></path>
+                <path d="M10 22h4"></path>
+                <path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"></path>
+              </svg>
+            </div>
+            <h3 class="feature-box-title">Understands Your Intent</h3>
+            <p class="feature-box-desc">AI-powered navigation based on meaning</p>
+            <button type="button" class="card-circle-arrow-btn" aria-label="Explore intent understanding" data-feature-query="how AI understands user intent based on semantic meaning" data-feature-name="Understands Your Intent">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </article>
+
+          <!-- Card 4: Quick and Easy Access -->
+          <article class="feature-box feature-card card-with-vines" id="cardAccess">
+            <!-- Subtle corner botanical accent -->
+            <svg class="card-vine vine-corner-bl" width="28" height="36" viewBox="0 0 28 36" fill="none" aria-hidden="true">
+              <path d="M2 36 C8 24 16 16 26 8" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 26 C8 18 14 14 20 17 C22 19 20 25 12 26 Z" fill="#1856D8" opacity="0.8"/>
+            </svg>
+            <span class="card-star-spark">⋆</span>
+
+            <div class="feature-icon-circle feature-icon-wrap">
+              <!-- Concentric Target / Bullseye icon (matching Reference Image A) -->
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2" fill="currentColor"></circle>
+              </svg>
+            </div>
+            <h3 class="feature-box-title">Quick and Easy Access</h3>
+            <p class="feature-box-desc">Reach the right websites in fewer steps</p>
+            <button type="button" class="card-circle-arrow-btn" aria-label="Explore quick access" data-feature-query="reach developer documentation and shortcuts in fewer steps" data-feature-name="Quick and Easy Access">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </article>
+
+        </div>
+
+        <!-- Section Anchors for Features & About -->
+        <div class="home-extended-content" id="featuresSection">
+          <div class="sub-section-divider">
+            <span class="divider-line"></span>
+            <span class="divider-gem">✦</span>
+            <span class="divider-line"></span>
+          </div>
+
+          <div class="editorial-showcase" id="aboutSection">
+            <div class="showcase-left">
+              <div class="eyebrow-container stacked-eyebrow">
+                <span class="eyebrow-line1">THE SEMANTIC ADVANTAGE</span>
+                <span class="eyebrow-line2">INTENT-FIRST DISCOVERY</span>
+              </div>
+              <h2 class="editorial-subhead">Stop clicking through noise. Start navigating by meaning.</h2>
+              <p class="editorial-p">Traditional search forces you to guess keywords that match website SEO tactics. SemanticNav bridges human intent directly with digital destinations, translating what you want to achieve into precise paths across the global web.</p>
+              <div class="editorial-metrics">
+                <div class="metric-item">
+                  <span class="metric-value">3.4×</span>
+                  <span class="metric-label">Faster goal attainment</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-value">96.8%</span>
+                  <span class="metric-label">Intent classification accuracy</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-value">0</span>
+                  <span class="metric-label">Cluttered ad redirects</span>
+                </div>
+              </div>
+            </div>
+            <div class="showcase-right">
+              <div class="method-card">
+                <div class="method-num">01</div>
+                <div class="method-body">
+                  <h4>Express In Natural Language</h4>
+                  <p>Describe your objective without rigid keyword phrasing, constraints, or search operators.</p>
+                </div>
+              </div>
+              <div class="method-card">
+                <div class="method-num">02</div>
+                <div class="method-body">
+                  <h4>Intent Vector Disambiguation</h4>
+                  <p>Our heuristic engine maps the underlying intent category, technical level, and target format.</p>
+                </div>
+              </div>
+              <div class="method-card">
+                <div class="method-num">03</div>
+                <div class="method-body">
+                  <h4>Direct Website Arrival</h4>
+                  <p>Access high-signal resources, interactive tools, and credible documentation immediately.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Honest Architecture Disclosure: Prototype vs Production NLP -->
+          <div class="architecture-transparency-card">
+            <div class="arch-header">
+              <span class="arch-badge">HOW SEMANTICNAV WORKS</span>
+              <h3 class="arch-title">Client-Side Heuristic Prototype & Production Architecture</h3>
+            </div>
+            <div class="arch-grid">
+              <div class="arch-col">
+                <div class="arch-col-badge badge-current">Current Prototype</div>
+                <h4 class="arch-h4">Instant In-Browser Heuristic Engine</h4>
+                <p class="arch-p">Analyzes your natural-language query locally using linguistic token decomposition, intent taxonomy clustering, and constraint extraction (budget, beginner, format). Delivers immediate relevance scoring without latency or third-party tracking.</p>
+                <ul class="arch-feature-list">
+                  <li>✓ Zero-latency in-memory intent taxonomy matching</li>
+                  <li>✓ Real-time constraint & category classification</li>
+                  <li>✓ 100% private client-side execution</li>
+                </ul>
+              </div>
+              <div class="arch-col">
+                <div class="arch-col-badge badge-production">Production Roadmap</div>
+                <h4 class="arch-h4">Dense Neural Vector Embeddings</h4>
+                <p class="arch-p">The production deployment integrates transformer-based sentence embeddings (e.g. BERT/MiniLM), high-dimensional vector search indexing (HNSW / pgvector), and continuous LLM intent refinement to index millions of deep-web endpoints.</p>
+                <ul class="arch-feature-list">
+                  <li>✦ Multi-modal query embedding vectors</li>
+                  <li>✦ Semantic disambiguation & active user feedback</li>
+                  <li>✦ Autonomous web indexing & signal ranking</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 2: LOGIN SCREEN (Reference Image B — Screen 01)     -->
+      <!-- ======================================================== -->
+      <section class="screen-view" id="viewLogin">
+        <div class="auth-split-layout">
+          
+          <!-- Left Panel: Eyebrow (Two Lines), Headline with Orbital Loop, Taglines & AI Brain with 4 Windows -->
+          <div class="auth-left-panel">
+            <div class="auth-left-content">
+              
+              <div class="eyebrow-container stacked-eyebrow">
+                <span class="eyebrow-line1">WEB NAVIGATION</span>
+                <span class="eyebrow-line2">MADE INTELLIGENT</span>
+              </div>
+
+              <!-- Brand Headline (Refined proportion, no intersecting decoration) -->
+              <div class="headline-with-orbit-wrap auth-headline-wrap">
+                <svg class="orbital-swoosh-svg auth-swoosh" viewBox="0 0 340 70" fill="none" aria-hidden="true">
+                  <path d="M 15,42 C 12,20 85,6 180,7 C 260,8 325,18 328,34 C 332,50 265,58 175,56 C 90,54 30,50 12,45" 
+                        stroke="url(#orbitGradientAuth)" stroke-width="2.2" stroke-linecap="round"/>
+                  <defs>
+                    <linearGradient id="orbitGradientAuth" x1="10" y1="5" x2="330" y2="55" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#06142F"/>
+                      <stop offset="50%" stop-color="#1856D8"/>
+                      <stop offset="100%" stop-color="#5DE1FF"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="auth-brand-wordmark">
+                  <span class="brand-semantic">Semantic</span><span class="brand-nav">Nav</span>
+                </div>
+              </div>
+
+              <div class="hero-tagline-container auth-taglines">
+                <div class="primary-tagline">
+                  <span>UNDERSTAND INTENT</span>
+                  <span class="tagline-diamond">◆</span>
+                  <span>DISCOVER THE WEB</span>
+                </div>
+                <div class="secondary-tagline">FIND THE RIGHT WEBSITES, FASTER</div>
+              </div>
+
+              <!-- Recognizable Compact Human Neural Brain for Login (Screen 01) -->
+              <div class="auth-ai-brain-block" aria-hidden="true">
+                <div class="auth-brain-orbit-ring"></div>
+                <div class="auth-brain-core">
+                  <div class="auth-brain-glow"></div>
+                  <!-- Compact Human Neural Brain SVG -->
+                  <svg width="130" height="110" viewBox="0 0 220 185" fill="none">
+                    <defs>
+                      <linearGradient id="authHemiGradL" x1="25" y1="15" x2="105" y2="130" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#5DE1FF"/>
+                        <stop offset="40%" stop-color="#3185FF"/>
+                        <stop offset="100%" stop-color="#06142F"/>
+                      </linearGradient>
+                      <linearGradient id="authHemiGradR" x1="195" y1="15" x2="115" y2="130" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#5DE1FF"/>
+                        <stop offset="40%" stop-color="#3185FF"/>
+                        <stop offset="100%" stop-color="#06142F"/>
+                      </linearGradient>
+                    </defs>
+                    <!-- Left Hemisphere -->
+                    <path d="M 104,18 C 92,15 74,16 60,24 C 48,31 38,40 32,54 C 26,67 25,82 31,95 C 36,106 46,115 58,121 C 70,127 86,128 98,123 C 103,121 105,114 105,106 C 104,80 103,50 104,18 Z" 
+                          fill="url(#authHemiGradL)" stroke="#5DE1FF" stroke-width="2"/>
+                    <!-- Right Hemisphere -->
+                    <path d="M 116,18 C 128,15 146,16 160,24 C 172,31 182,40 188,54 C 194,67 195,82 189,95 C 184,106 174,115 162,121 C 150,127 134,128 122,123 C 117,121 115,114 115,106 C 116,80 117,50 116,18 Z" 
+                          fill="url(#authHemiGradR)" stroke="#5DE1FF" stroke-width="2"/>
+                    <!-- Longitudinal Fissure -->
+                    <line x1="110" y1="16" x2="110" y2="115" stroke="#06142F" stroke-width="4"/>
+                    <!-- Sulci -->
+                    <path d="M 33,75 C 50,73 70,74 97,46" stroke="#5DE1FF" stroke-width="1.8" fill="none"/>
+                    <path d="M 187,75 C 170,73 150,74 123,46" stroke="#5DE1FF" stroke-width="1.8" fill="none"/>
+                    <!-- Nodes -->
+                    <circle cx="60" cy="24" r="3" fill="#FFFFFF"/>
+                    <circle cx="94" cy="68" r="3.5" fill="#FFFFFF"/>
+                    <circle cx="160" cy="24" r="3" fill="#FFFFFF"/>
+                    <circle cx="126" cy="68" r="3.5" fill="#FFFFFF"/>
+                    <circle cx="110" cy="58" r="4.5" fill="#C7A96B" stroke="#FFFFFF" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <div class="auth-pedestal-mini"></div>
+                
+                <!-- 4 Mini Floating Windows -->
+                <div class="auth-mini-window mw-globe" title="Web">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1856D8" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"/></svg>
+                </div>
+                <div class="auth-mini-window mw-code" title="Code">&lt;/&gt;</div>
+                <div class="auth-mini-window mw-tree" title="Structure">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1856D8" stroke-width="2"><rect x="9" y="3" width="6" height="4" rx="1"/><rect x="4" y="15" width="5" height="4" rx="1"/><rect x="15" y="15" width="5" height="4" rx="1"/><path d="M12 7v4m-5 4v-4h10v4"/></svg>
+                </div>
+                <div class="auth-mini-window mw-doc" title="Navigation">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1856D8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Panel: White Rounded Authentication Card -->
+          <div class="auth-right-panel">
+            <div class="auth-card-box auth-form-card">
+              
+              <div class="auth-card-header">
+                <h2 class="auth-card-title">Welcome back</h2>
+                <p class="auth-card-subtitle">Sign in to continue to SemanticNav</p>
+              </div>
+
+              <form class="auth-form" id="loginForm" novalidate>
+                
+                <!-- Email Address Field with Mail Icon -->
+                <div class="form-field-group">
+                  <label for="loginEmail" class="form-field-label">Email address</label>
+                  <div class="form-input-wrap">
+                    <span class="input-icon-prefix">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                    </span>
+                    <input 
+                      type="email" 
+                      id="loginEmail" 
+                      class="form-text-input" 
+                      placeholder="name@example.com" 
+                      required 
+                      autocomplete="email"
+                    />
+                  </div>
+                  <span class="field-error-msg" id="loginEmailError"></span>
+                </div>
+
+                <!-- Password Field with Lock Icon & Show/Hide Eye Control -->
+                <div class="form-field-group">
+                  <label for="loginPassword" class="form-field-label">Password</label>
+                  <div class="form-input-wrap">
+                    <span class="input-icon-prefix">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                      </svg>
+                    </span>
+                    <input 
+                      type="password" 
+                      id="loginPassword" 
+                      class="form-text-input" 
+                      placeholder="Enter your password" 
+                      required 
+                      autocomplete="current-password"
+                    />
+                    <button type="button" class="input-eye-toggle" id="loginEyeToggle" aria-label="Toggle password visibility" title="Show/hide password">
+                      <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                      <svg class="eye-closed hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                      </svg>
+                    </button>
+                  </div>
+                  <span class="field-error-msg" id="loginPassError"></span>
+                </div>
+
+                <!-- Remember Me & Forgot Password Row -->
+                <div class="auth-aux-row">
+                  <label class="checkbox-container">
+                    <input type="checkbox" id="loginRemember" checked />
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label-text">Remember me</span>
+                  </label>
+                  <button type="button" class="forgot-pass-link" id="forgotPassBtn">Forgot password?</button>
+                </div>
+
+                <!-- Prominent Full-Width Blue Sign In Button with Arrow -->
+                <button type="submit" class="auth-primary-btn" id="loginSubmitBtn">
+                  <span>Sign in</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+
+                <!-- OR Separator -->
+                <div class="or-separator-row">
+                  <div class="or-line"></div>
+                  <span class="or-badge">OR</span>
+                  <div class="or-line"></div>
+                </div>
+
+                <!-- Continue with Google Button -->
+                <button type="button" class="google-auth-btn" id="googleAuthBtn">
+                  <svg class="google-logo-svg" width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.26v3.15C3.25 21.36 7.31 24 12 24z"/>
+                    <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.26C.46 8.16 0 9.94 0 12s.46 3.84 1.26 5.42l4.02-3.15z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.64 1.26 6.58l4.02 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                  </svg>
+                  <span>Continue with Google</span>
+                </button>
+
+                <!-- Link to Create Account -->
+                <div class="auth-switch-prompt">
+                  <span>Don't have an account?</span>
+                  <button type="button" class="switch-link-btn" id="switchToSignupBtn">Create account</button>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      
+
+      <!-- ======================================================== -->
+      <!-- VIEW 3: SIGN UP SCREEN (Reference Image B — Screen 02)   -->
+      <!-- ======================================================== -->
+      <section class="screen-view" id="viewSignup">
+        <div class="auth-split-layout">
+          
+          <!-- Left Panel: Eyebrow, Headline with Orbital Loop, Taglines & 3 Benefit Bullet Points (Exact Image B Screen 02) -->
+          <div class="auth-left-panel">
+            <div class="auth-left-content">
+              
+              <div class="eyebrow-container stacked-eyebrow">
+                <span class="eyebrow-line1">WEB NAVIGATION</span>
+                <span class="eyebrow-line2">MADE INTELLIGENT</span>
+              </div>
+
+              <!-- Brand Headline (Refined proportion, no intersecting decoration) -->
+              <div class="headline-with-orbit-wrap auth-headline-wrap">
+                <svg class="orbital-swoosh-svg auth-swoosh" viewBox="0 0 340 70" fill="none" aria-hidden="true">
+                  <path d="M 15,42 C 12,20 85,6 180,7 C 260,8 325,18 328,34 C 332,50 265,58 175,56 C 90,54 30,50 12,45" 
+                        stroke="url(#orbitGradientAuth2)" stroke-width="2.2" stroke-linecap="round"/>
+                  <defs>
+                    <linearGradient id="orbitGradientAuth2" x1="10" y1="5" x2="330" y2="55" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#06142F"/>
+                      <stop offset="50%" stop-color="#1856D8"/>
+                      <stop offset="100%" stop-color="#5DE1FF"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div class="auth-brand-wordmark">
+                  <span class="brand-semantic">Semantic</span><span class="brand-nav">Nav</span>
+                </div>
+              </div>
+
+              <div class="hero-tagline-container auth-taglines">
+                <div class="primary-tagline">
+                  <span>UNDERSTAND INTENT</span>
+                  <span class="tagline-diamond">◆</span>
+                  <span>DISCOVER THE WEB</span>
+                </div>
+                <div class="secondary-tagline">FIND THE RIGHT WEBSITES, FASTER</div>
+              </div>
+
+              <!-- Three Benefit Bullet Points (Target, Bookmark, Lightning) matching Screen 02 in Image B -->
+              <div class="signup-benefit-bullets">
+                
+                <!-- Bullet 1: Target Icon -->
+                <div class="signup-bullet-item">
+                  <div class="bullet-icon-circ">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#124DC5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <circle cx="12" cy="12" r="6"></circle>
+                      <circle cx="12" cy="12" r="2" fill="#124DC5"></circle>
+                    </svg>
+                  </div>
+                  <div class="bullet-text">
+                    <strong>Personalized discovery</strong>
+                    <small>Find websites tailored to your intent</small>
+                  </div>
+                </div>
+
+                <!-- Bullet 2: Bookmark Icon -->
+                <div class="signup-bullet-item">
+                  <div class="bullet-icon-circ">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#124DC5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                  </div>
+                  <div class="bullet-text">
+                    <strong>Saved searches</strong>
+                    <small>Keep and organize your interests</small>
+                  </div>
+                </div>
+
+                <!-- Bullet 3: Lightning Icon -->
+                <div class="signup-bullet-item">
+                  <div class="bullet-icon-circ">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#124DC5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                  </div>
+                  <div class="bullet-text">
+                    <strong>Smarter navigation</strong>
+                    <small>AI understands what you want</small>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Right Panel: Create Account Card -->
+          <div class="auth-right-panel">
+            <div class="auth-card-box auth-form-card">
+              
+              <div class="auth-card-header">
+                <h2 class="auth-card-title">Create your SemanticNav account</h2>
+                <p class="auth-card-subtitle">Get started and discover the web smarter</p>
+              </div>
+
+              <form class="auth-form" id="signupForm" novalidate>
+                
+                <!-- Full Name Field with Person Icon -->
+                <div class="form-field-group">
+                  <label for="signupName" class="form-field-label">Full name</label>
+                  <div class="form-input-wrap">
+                    <span class="input-icon-prefix">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                      </svg>
+                    </span>
+                    <input 
+                      type="text" 
+                      id="signupName" 
+                      class="form-text-input" 
+                      placeholder="Alex Morgan" 
+                      required 
+                      autocomplete="name"
+                    />
+                  </div>
+                  <span class="field-error-msg" id="signupNameError"></span>
+                </div>
+
+                <!-- Email Address Field with Mail Icon -->
+                <div class="form-field-group">
+                  <label for="signupEmail" class="form-field-label">Email address</label>
+                  <div class="form-input-wrap">
+                    <span class="input-icon-prefix">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                    </span>
+                    <input 
+                      type="email" 
+                      id="signupEmail" 
+                      class="form-text-input" 
+                      placeholder="alex@example.com" 
+                      required 
+                      autocomplete="email"
+                    />
+                  </div>
+                  <span class="field-error-msg" id="signupEmailError"></span>
+                </div>
+
+                <!-- Password Field with Lock Icon & Show/Hide Eye Control -->
+                <div class="form-field-group">
+                  <label for="signupPassword" class="form-field-label">Password</label>
+                  <div class="form-input-wrap">
+                    <span class="input-icon-prefix">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                      </svg>
+                    </span>
+                    <input 
+                      type="password" 
+                      id="signupPassword" 
+                      class="form-text-input" 
+                      placeholder="Create a strong password (min 6 chars)" 
+                      required 
+                      minlength="6"
+                      autocomplete="new-password"
+                    />
+                    <button type="button" class="input-eye-toggle" id="signupEyeToggle" aria-label="Toggle password visibility" title="Show/hide password">
+                      <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                      <svg class="eye-closed hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                      </svg>
+                    </button>
+                  </div>
+                  <span class="field-error-msg" id="signupPassError"></span>
+                </div>
+
+                <!-- Terms of Service & Privacy Policy Checkbox -->
+                <div class="auth-terms-row">
+                  <label class="checkbox-container">
+                    <input type="checkbox" id="signupTerms" required />
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label-text">
+                      I agree to the <a href="#" class="inline-link" id="termsLink">Terms of Service</a> and <a href="#" class="inline-link" id="privacyLink">Privacy Policy</a>
+                    </span>
+                  </label>
+                  <span class="field-error-msg" id="signupTermsError"></span>
+                </div>
+
+                <!-- Prominent Full-Width Blue Create Account Button with Arrow -->
+                <button type="submit" class="auth-primary-btn" id="signupSubmitBtn">
+                  <span>Create account</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+
+                <!-- Link for existing users to sign in -->
+                <div class="auth-switch-prompt">
+                  <span>Already have an account?</span>
+                  <button type="button" class="switch-link-btn" id="switchToLoginBtn">Sign in</button>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      
+
+      <!-- ======================================================== -->
+      <!-- VIEW 4: EXPLORE INTENT SCREEN (Reference Image B — 03)   -->
+      <!-- ======================================================== -->
+      <section class="screen-view" id="viewExplore">
+        <div class="explore-page-layout cosmic-explore-layout">
+
+          <!-- 1. Cosmic Deep Space Background Layers (Radar Rings, Constellations, Sparkles) -->
+          <div class="cosmic-backdrop-scene" aria-hidden="true">
+            <!-- Radar concentric circles -->
+            <div class="cosmic-radar-rings">
+              <span class="radar-circle ring-1"></span>
+              <span class="radar-circle ring-2"></span>
+              <span class="radar-circle ring-3"></span>
+              <span class="radar-circle ring-4"></span>
+              <span class="radar-crosshair-h"></span>
+              <span class="radar-crosshair-v"></span>
+            </div>
+
+            <!-- Constellations SVG -->
+            <svg class="cosmic-constellations-svg" viewBox="0 0 1400 700" preserveAspectRatio="none">
+              <!-- Constellation cluster left -->
+              <g class="constellation-cluster cluster-left">
+                <line x1="80" y1="120" x2="160" y2="70" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <line x1="160" y1="70" x2="240" y2="130" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <line x1="240" y1="130" x2="190" y2="210" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <line x1="190" y1="210" x2="110" y2="190" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <line x1="110" y1="190" x2="80" y2="120" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <circle cx="80" cy="120" r="3.5" fill="#7DF9FF" />
+                <circle cx="160" cy="70" r="4.5" fill="#FFFFFF" />
+                <circle cx="240" cy="130" r="3" fill="#7DF9FF" />
+                <circle cx="190" cy="210" r="4" fill="#C084FC" />
+                <circle cx="110" cy="190" r="3" fill="#7DF9FF" />
+              </g>
+
+              <!-- Constellation cluster right -->
+              <g class="constellation-cluster cluster-right">
+                <line x1="1180" y1="90" x2="1260" y2="140" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <line x1="1260" y1="140" x2="1340" y2="80" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <line x1="1260" y1="140" x2="1280" y2="230" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <line x1="1280" y1="230" x2="1210" y2="200" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <line x1="1210" y1="200" x2="1180" y2="90" stroke="rgba(120, 220, 255, 0.35)" stroke-width="1.2" />
+                <circle cx="1180" cy="90" r="3.5" fill="#FFD166" />
+                <circle cx="1260" cy="140" r="4" fill="#FFFFFF" />
+                <circle cx="1340" cy="80" r="3" fill="#7DF9FF" />
+                <circle cx="1280" cy="230" r="4" fill="#F472B6" />
+                <circle cx="1210" cy="200" r="3" fill="#7DF9FF" />
+              </g>
+
+              <!-- Golden Comet streak -->
+              <g class="cosmic-comet-streak">
+                <line x1="1340" y1="60" x2="1100" y2="200" stroke="url(#cometTrailGrad)" stroke-width="4.5" stroke-linecap="round" />
+                <circle cx="1100" cy="200" r="5" fill="#FFFFFF" />
+                <!-- Smaller secondary streak -->
+                <line x1="1260" y1="40" x2="1170" y2="90" stroke="url(#cometTrailGrad2)" stroke-width="2" stroke-linecap="round" />
+                <circle cx="1170" cy="90" r="3" fill="#FFFFFF" />
+              </g>
+              <defs>
+                <linearGradient id="cometTrailGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#FFB703" stop-opacity="0" />
+                  <stop offset="65%" stop-color="#FFD166" stop-opacity="0.8" />
+                  <stop offset="100%" stop-color="#FFFFFF" stop-opacity="1" />
+                </linearGradient>
+                <linearGradient id="cometTrailGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#7DF9FF" stop-opacity="0" />
+                  <stop offset="70%" stop-color="#7DF9FF" stop-opacity="0.7" />
+                  <stop offset="100%" stop-color="#FFFFFF" stop-opacity="1" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <!-- Sparkling 4-point Stars -->
+            <div class="cosmic-sparkle-star spark-top-left">✦</div>
+            <div class="cosmic-sparkle-star spark-top-right">✦</div>
+            <div class="cosmic-sparkle-star spark-mid-left">✦</div>
+            <div class="cosmic-sparkle-star spark-mid-right">✦</div>
+          </div>
+
+          <!-- 2. Cosmic Search Hero Section -->
+          <div class="explore-hero-centered cosmic-search-hero">
+
+            <!-- Grand Glowing Nebula Search Wrap -->
+            <div class="cosmic-search-nebula-wrap">
+              <!-- Nebular stardust particles aura -->
+              <div class="stardust-cloud-aura" aria-hidden="true">
+                <svg class="stardust-galaxy-svg" viewBox="0 0 1000 180" preserveAspectRatio="none" aria-hidden="true">
+  <defs>
+    <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <circle cx="724" cy="39" r="1.3" fill="#F59E0B" opacity="0.74" />
+  <circle cx="212" cy="38" r="3.1" fill="#FFFFFF" opacity="0.68" />
+  <circle cx="502" cy="34" r="1.3" fill="#C084FC" opacity="0.73" />
+  <circle cx="686" cy="33" r="2.8" fill="#00FFB2" opacity="0.88" />
+  <circle cx="628" cy="58" r="1.8" fill="#FFFFFF" opacity="0.75" />
+  <circle cx="76" cy="42" r="3.2" fill="#818CF8" opacity="0.75" />
+  <circle cx="290" cy="53" r="1.5" fill="#C084FC" opacity="0.68" />
+  <circle cx="422" cy="48" r="3.5" fill="#00F0FF" opacity="0.81" />
+  <circle cx="197" cy="56" r="1.4" fill="#818CF8" opacity="0.94" />
+  <circle cx="703" cy="55" r="2.8" fill="#00FFB2" opacity="0.67" />
+  <circle cx="747" cy="46" r="3.4" fill="#EC4899" opacity="0.95" />
+  <circle cx="173" cy="56" r="2.0" fill="#818CF8" opacity="0.71" />
+  <circle cx="433" cy="45" r="3.1" fill="#00F0FF" opacity="0.98" />
+  <circle cx="733" cy="36" r="2.9" fill="#F43F5E" opacity="0.84" />
+  <circle cx="320" cy="42" r="2.5" fill="#818CF8" opacity="1.0" />
+  <circle cx="725" cy="46" r="3.1" fill="#FFFFFF" opacity="0.92" />
+  <circle cx="127" cy="46" r="3.5" fill="#818CF8" opacity="0.79" />
+  <circle cx="137" cy="45" r="3.8" fill="#FFFFFF" opacity="0.96" />
+  <circle cx="392" cy="45" r="3.0" fill="#F472B6" opacity="0.96" />
+  <circle cx="728" cy="61" r="1.6" fill="#F43F5E" opacity="0.74" />
+  <circle cx="644" cy="66" r="1.9" fill="#FFFFFF" opacity="0.8" />
+  <circle cx="667" cy="57" r="2.2" fill="#F43F5E" opacity="0.83" />
+  <circle cx="163" cy="35" r="3.6" fill="#38BDF8" opacity="0.87" />
+  <circle cx="881" cy="59" r="2.9" fill="#FFD166" opacity="0.78" />
+  <circle cx="549" cy="65" r="1.9" fill="#FFFFFF" opacity="0.95" />
+  <circle cx="81" cy="39" r="3.1" fill="#FFFFFF" opacity="0.91" />
+  <circle cx="857" cy="53" r="1.5" fill="#FFD166" opacity="0.71" />
+  <circle cx="73" cy="48" r="3.9" fill="#38BDF8" opacity="0.83" />
+  <circle cx="178" cy="51" r="3.6" fill="#FFFFFF" opacity="0.86" />
+  <circle cx="226" cy="55" r="3.3" fill="#FFFFFF" opacity="0.98" />
+  <circle cx="613" cy="32" r="2.9" fill="#F472B6" opacity="0.66" />
+  <circle cx="441" cy="51" r="1.9" fill="#C084FC" opacity="0.96" />
+  <circle cx="150" cy="37" r="3.2" fill="#00F0FF" opacity="0.99" />
+  <circle cx="615" cy="40" r="1.6" fill="#F472B6" opacity="0.98" />
+  <circle cx="239" cy="48" r="2.7" fill="#FFFFFF" opacity="0.8" />
+  <circle cx="286" cy="66" r="3.3" fill="#38BDF8" opacity="0.9" />
+  <circle cx="478" cy="55" r="2.4" fill="#FFFFFF" opacity="0.81" />
+  <circle cx="323" cy="46" r="1.4" fill="#00F0FF" opacity="0.86" />
+  <circle cx="305" cy="46" r="1.2" fill="#00F0FF" opacity="0.73" />
+  <circle cx="102" cy="53" r="1.4" fill="#38BDF8" opacity="0.75" />
+  <circle cx="567" cy="127" r="2.7" fill="#00F0FF" opacity="0.98" />
+  <circle cx="654" cy="150" r="2.5" fill="#FFFFFF" opacity="0.82" />
+  <circle cx="486" cy="126" r="1.5" fill="#00F0FF" opacity="0.8" />
+  <circle cx="503" cy="140" r="2.5" fill="#00F0FF" opacity="0.67" />
+  <circle cx="739" cy="120" r="1.4" fill="#00FFB2" opacity="0.77" />
+  <circle cx="181" cy="129" r="1.7" fill="#FFFFFF" opacity="0.81" />
+  <circle cx="502" cy="125" r="2.0" fill="#C084FC" opacity="0.96" />
+  <circle cx="147" cy="142" r="3.5" fill="#FFFFFF" opacity="0.68" />
+  <circle cx="737" cy="148" r="3.5" fill="#EC4899" opacity="0.97" />
+  <circle cx="312" cy="124" r="2.3" fill="#C084FC" opacity="0.72" />
+  <circle cx="480" cy="117" r="1.7" fill="#A855F7" opacity="0.99" />
+  <circle cx="341" cy="143" r="2.0" fill="#FFFFFF" opacity="0.88" />
+  <circle cx="568" cy="123" r="1.7" fill="#C084FC" opacity="0.99" />
+  <circle cx="663" cy="148" r="1.4" fill="#F59E0B" opacity="0.67" />
+  <circle cx="668" cy="144" r="2.6" fill="#FFFFFF" opacity="0.84" />
+  <circle cx="128" cy="146" r="1.4" fill="#38BDF8" opacity="0.67" />
+  <circle cx="139" cy="129" r="2.3" fill="#FFFFFF" opacity="0.74" />
+  <circle cx="678" cy="116" r="2.9" fill="#FFD166" opacity="0.88" />
+  <circle cx="648" cy="147" r="2.1" fill="#EC4899" opacity="0.72" />
+  <circle cx="803" cy="134" r="1.9" fill="#FFD166" opacity="0.7" />
+  <circle cx="730" cy="133" r="2.5" fill="#FFFFFF" opacity="0.98" />
+  <circle cx="79" cy="143" r="2.9" fill="#FFFFFF" opacity="1.0" />
+  <circle cx="145" cy="148" r="1.8" fill="#818CF8" opacity="0.7" />
+  <circle cx="427" cy="118" r="3.7" fill="#EC4899" opacity="0.75" />
+  <circle cx="518" cy="148" r="3.2" fill="#FFFFFF" opacity="0.99" />
+  <circle cx="896" cy="147" r="1.2" fill="#FFFFFF" opacity="0.84" />
+  <circle cx="749" cy="120" r="3.8" fill="#F43F5E" opacity="0.74" />
+  <circle cx="179" cy="149" r="1.6" fill="#818CF8" opacity="0.86" />
+  <circle cx="804" cy="135" r="1.8" fill="#00FFB2" opacity="0.95" />
+  <circle cx="587" cy="145" r="1.9" fill="#A855F7" opacity="0.68" />
+  <circle cx="503" cy="131" r="1.3" fill="#EC4899" opacity="0.92" />
+  <circle cx="722" cy="130" r="1.7" fill="#FFD166" opacity="0.84" />
+  <circle cx="507" cy="149" r="1.2" fill="#A855F7" opacity="0.98" />
+  <circle cx="777" cy="123" r="2.7" fill="#FFFFFF" opacity="0.78" />
+  <circle cx="635" cy="123" r="2.4" fill="#A855F7" opacity="0.76" />
+  <circle cx="885" cy="116" r="3.7" fill="#F43F5E" opacity="0.89" />
+  <circle cx="752" cy="120" r="2.2" fill="#10B981" opacity="0.96" />
+  <circle cx="486" cy="123" r="3.8" fill="#C084FC" opacity="0.95" />
+  <circle cx="889" cy="125" r="3.7" fill="#EC4899" opacity="0.71" />
+  <circle cx="410" cy="140" r="3.4" fill="#00F0FF" opacity="0.93" />
+  <circle cx="49" cy="65" r="3.0" fill="#00F0FF" opacity="0.64" />
+  <circle cx="19" cy="105" r="1.6" fill="#C084FC" opacity="0.62" />
+  <circle cx="120" cy="74" r="1.6" fill="#38BDF8" opacity="0.65" />
+  <circle cx="50" cy="53" r="3.4" fill="#818CF8" opacity="0.63" />
+  <circle cx="80" cy="96" r="2.7" fill="#FFFFFF" opacity="0.62" />
+  <circle cx="18" cy="59" r="3.2" fill="#818CF8" opacity="0.54" />
+  <circle cx="48" cy="49" r="1.3" fill="#C084FC" opacity="0.62" />
+  <circle cx="115" cy="85" r="2.1" fill="#FFFFFF" opacity="0.51" />
+  <circle cx="88" cy="69" r="1.6" fill="#C084FC" opacity="0.45" />
+  <circle cx="118" cy="113" r="2.7" fill="#38BDF8" opacity="0.63" />
+  <circle cx="23" cy="130" r="3.3" fill="#FFFFFF" opacity="0.61" />
+  <circle cx="30" cy="83" r="2.3" fill="#C084FC" opacity="0.61" />
+  <circle cx="104" cy="82" r="2.4" fill="#38BDF8" opacity="0.66" />
+  <circle cx="63" cy="131" r="2.9" fill="#38BDF8" opacity="0.76" />
+  <circle cx="53" cy="96" r="2.4" fill="#00F0FF" opacity="0.6" />
+  <circle cx="41" cy="100" r="3.0" fill="#FFFFFF" opacity="0.78" />
+  <circle cx="74" cy="101" r="2.1" fill="#38BDF8" opacity="0.71" />
+  <circle cx="116" cy="66" r="2.6" fill="#818CF8" opacity="0.71" />
+  <circle cx="96" cy="124" r="1.8" fill="#38BDF8" opacity="0.79" />
+  <circle cx="43" cy="70" r="1.4" fill="#00F0FF" opacity="0.57" />
+  <circle cx="75" cy="123" r="3.1" fill="#00F0FF" opacity="0.68" />
+  <circle cx="95" cy="118" r="1.5" fill="#C084FC" opacity="0.7" />
+  <circle cx="46" cy="63" r="2.6" fill="#00F0FF" opacity="0.9" />
+  <circle cx="113" cy="58" r="2.9" fill="#38BDF8" opacity="0.54" />
+  <circle cx="104" cy="111" r="2.2" fill="#FFFFFF" opacity="0.57" />
+  <circle cx="895" cy="103" r="1.3" fill="#FFD166" opacity="0.78" />
+  <circle cx="951" cy="121" r="1.8" fill="#FFFFFF" opacity="0.9" />
+  <circle cx="958" cy="109" r="2.1" fill="#10B981" opacity="0.67" />
+  <circle cx="900" cy="105" r="2.1" fill="#FFFFFF" opacity="0.57" />
+  <circle cx="961" cy="80" r="2.9" fill="#10B981" opacity="0.69" />
+  <circle cx="910" cy="80" r="2.1" fill="#00FFB2" opacity="0.59" />
+  <circle cx="914" cy="87" r="1.8" fill="#10B981" opacity="0.49" />
+  <circle cx="899" cy="74" r="2.0" fill="#F43F5E" opacity="0.8" />
+  <circle cx="888" cy="98" r="2.0" fill="#10B981" opacity="0.68" />
+  <circle cx="887" cy="71" r="3.1" fill="#FFD166" opacity="0.9" />
+  <circle cx="954" cy="134" r="1.0" fill="#FFFFFF" opacity="0.74" />
+  <circle cx="941" cy="45" r="3.4" fill="#F59E0B" opacity="0.83" />
+  <circle cx="933" cy="113" r="2.9" fill="#10B981" opacity="0.85" />
+  <circle cx="908" cy="107" r="1.5" fill="#FFD166" opacity="0.69" />
+  <circle cx="929" cy="88" r="2.7" fill="#FFFFFF" opacity="0.65" />
+  <circle cx="901" cy="104" r="3.3" fill="#10B981" opacity="0.72" />
+  <circle cx="930" cy="120" r="2.4" fill="#EC4899" opacity="0.49" />
+  <circle cx="934" cy="62" r="3.2" fill="#F43F5E" opacity="0.48" />
+  <circle cx="928" cy="86" r="1.5" fill="#F59E0B" opacity="0.62" />
+  <circle cx="928" cy="80" r="2.9" fill="#FFFFFF" opacity="0.66" />
+  <circle cx="890" cy="105" r="1.0" fill="#10B981" opacity="0.48" />
+  <circle cx="924" cy="73" r="2.6" fill="#FFFFFF" opacity="0.93" />
+  <circle cx="885" cy="48" r="3.4" fill="#F43F5E" opacity="0.87" />
+  <circle cx="959" cy="64" r="1.6" fill="#FFD166" opacity="0.78" />
+  <circle cx="952" cy="72" r="2.2" fill="#F59E0B" opacity="0.83" />
+  <path d="M 40 82.0 Q 40 90 48.0 90 Q 40 90 40 98.0 Q 40 90 32.0 90 Q 40 90 40 82.0 Z" fill="#00F0FF" filter="url(#starGlow)" />
+  <path d="M 110 45.0 Q 110 52 117.0 52 Q 110 52 110 59.0 Q 110 52 103.0 52 Q 110 52 110 45.0 Z" fill="#FFFFFF" filter="url(#starGlow)" />
+  <path d="M 210 38.0 Q 210 44 216.0 44 Q 210 44 210 50.0 Q 210 44 204.0 44 Q 210 44 210 38.0 Z" fill="#7DF9FF" filter="url(#starGlow)" />
+  <path d="M 340 30.5 Q 340 38 347.5 38 Q 340 38 340 45.5 Q 340 38 332.5 38 Q 340 38 340 30.5 Z" fill="#A855F7" filter="url(#starGlow)" />
+  <path d="M 480 30.0 Q 480 38 488.0 38 Q 480 38 480 46.0 Q 480 38 472.0 38 Q 480 38 480 30.0 Z" fill="#FFFFFF" filter="url(#starGlow)" />
+  <path d="M 620 33.0 Q 620 40 627.0 40 Q 620 40 620 47.0 Q 620 40 613.0 40 Q 620 40 620 33.0 Z" fill="#EC4899" filter="url(#starGlow)" />
+  <path d="M 760 36.0 Q 760 44 768.0 44 Q 760 44 760 52.0 Q 760 44 752.0 44 Q 760 44 760 36.0 Z" fill="#F59E0B" filter="url(#starGlow)" />
+  <path d="M 880 42.5 Q 880 50 887.5 50 Q 880 50 880 57.5 Q 880 50 872.5 50 Q 880 50 880 42.5 Z" fill="#00FFB2" filter="url(#starGlow)" />
+  <path d="M 960 81.0 Q 960 90 969.0 90 Q 960 90 960 99.0 Q 960 90 951.0 90 Q 960 90 960 81.0 Z" fill="#FFD166" filter="url(#starGlow)" />
+  <path d="M 80 128.0 Q 80 135 87.0 135 Q 80 135 80 142.0 Q 80 135 73.0 135 Q 80 135 80 128.0 Z" fill="#38BDF8" filter="url(#starGlow)" />
+  <path d="M 240 135.5 Q 240 142 246.5 142 Q 240 142 240 148.5 Q 240 142 233.5 142 Q 240 142 240 135.5 Z" fill="#C084FC" filter="url(#starGlow)" />
+  <path d="M 440 138.5 Q 440 146 447.5 146 Q 440 146 440 153.5 Q 440 146 432.5 146 Q 440 146 440 138.5 Z" fill="#EC4899" filter="url(#starGlow)" />
+  <path d="M 640 137.0 Q 640 144 647.0 144 Q 640 144 640 151.0 Q 640 144 633.0 144 Q 640 144 640 137.0 Z" fill="#F472B6" filter="url(#starGlow)" />
+  <path d="M 790 130.0 Q 790 138 798.0 138 Q 790 138 790 146.0 Q 790 138 782.0 138 Q 790 138 790 130.0 Z" fill="#FFD166" filter="url(#starGlow)" />
+  <path d="M 920 123.5 Q 920 130 926.5 130 Q 920 130 920 136.5 Q 920 130 913.5 130 Q 920 130 920 123.5 Z" fill="#10B981" filter="url(#starGlow)" />
+  <path d="M 540 142.0 Q 540 148 546.0 148 Q 540 148 540 154.0 Q 540 148 534.0 148 Q 540 148 540 142.0 Z" fill="#FFFFFF" filter="url(#starGlow)" />
+</svg>
+                <span class="stardust-particle p-cyan p-1"></span>
+                <span class="stardust-particle p-blue p-2"></span>
+                <span class="stardust-particle p-purple p-3"></span>
+                <span class="stardust-particle p-magenta p-4"></span>
+                <span class="stardust-particle p-pink p-5"></span>
+                <span class="stardust-particle p-gold p-6"></span>
+                <span class="stardust-particle p-amber p-7"></span>
+                <span class="stardust-particle p-green p-8"></span>
+                <span class="stardust-particle p-cyan p-9"></span>
+                <span class="stardust-particle p-purple p-10"></span>
+                <span class="stardust-particle p-magenta p-11"></span>
+                <span class="stardust-particle p-gold p-12"></span>
+                <span class="stardust-particle p-cyan p-13"></span>
+                <span class="stardust-particle p-blue p-14"></span>
+                <span class="stardust-particle p-purple p-15"></span>
+                <span class="stardust-particle p-magenta p-16"></span>
+                <span class="stardust-particle p-gold p-17"></span>
+                <span class="stardust-particle p-green p-18"></span>
+                <span class="stardust-particle p-pink p-19"></span>
+                <span class="stardust-particle p-amber p-20"></span>
+                <!-- Floating Starlight Sparkles -->
+                <span class="stardust-star star-1">✦</span>
+                <span class="stardust-star star-2">✦</span>
+                <span class="stardust-star star-3">✦</span>
+                <span class="stardust-star star-4">✦</span>
+                <span class="stardust-star star-5">✦</span>
+                <span class="stardust-star star-6">✦</span>
+                <span class="stardust-star star-7">✦</span>
+                <span class="stardust-star star-8">✦</span>
+              </div>
+
+              <!-- Main Pill Search Capsule -->
+              <form class="explore-wide-search-bar cosmic-capsule-bar search-bar" id="exploreSearchForm" role="search">
+                <div class="search-input-prefix cosmic-search-icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </div>
+                <input 
+                  type="text" 
+                  id="exploreSearchInput" 
+                  class="explore-search-input cosmic-input-field" 
+                  placeholder="Search the Universe, Query Gemini AI..." 
+                  autocomplete="off" 
+                  aria-label="Search the Universe, Query Gemini AI"
+                />
+                <span class="cosmic-typing-caret" aria-hidden="true">|</span>
+                <span class="cosmic-spark-pill-badge" aria-hidden="true">✦</span>
+                <button type="submit" class="circular-arrow-btn cosmic-submit-btn" id="exploreSubmitBtn" aria-label="Explore intent">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </form>
+            </div>
+
+            <!-- "Try examples:" Row with Query Chips -->
+            <div class="suggested-queries-section cosmic-queries-section">
+              <div class="query-chips-wrap">
+                <span class="try-examples-label cosmic-examples-label">Try examples:</span>
+                <button type="button" class="intent-chip-pill cosmic-chip" data-query="Find beginner-friendly Python courses with practical projects">
+                  Find beginner-friendly Python courses with practical projects
+                </button>
+                <button type="button" class="intent-chip-pill cosmic-chip" data-query="compare reliable budget laptops for university">
+                  compare reliable budget laptops for university
+                </button>
+                <button type="button" class="intent-chip-pill cosmic-chip" data-query="find research papers on neural networks and transformers">
+                  find research papers on neural networks and transformers
+                </button>
+                <button type="button" class="intent-chip-pill cosmic-chip" data-query="find free tools to edit PDFs online">
+                  find free tools to edit PDFs online
+                </button>
+                <button type="button" class="intent-chip-pill cosmic-chip" data-query="plan a three-day trip to Bengaluru with itinerary and places to visit">
+                  plan a three-day trip to Bengaluru with itinerary and places to visit
+                </button>
+              </div>
+            </div>
+
+            <!-- "Search across" Section with Category Pills + Advanced Filters -->
+            <div class="search-across-container cosmic-across-container">
+              <span class="across-label cosmic-across-label">Search across</span>
+              <div class="category-pills-row" id="exploreCategoryPills" role="tablist">
+                <button type="button" class="cat-pill cosmic-cat-pill active" data-cat="Web" role="tab" aria-selected="true">
+                  <span class="cat-icon">🌐</span> Web
+                </button>
+                <button type="button" class="cat-pill cosmic-cat-pill" data-cat="Articles" role="tab" aria-selected="false">
+                  <span class="cat-icon">📰</span> Articles
+                </button>
+                <button type="button" class="cat-pill cosmic-cat-pill" data-cat="Videos" role="tab" aria-selected="false">
+                  <span class="cat-icon">🎬</span> Videos
+                </button>
+                <button type="button" class="cat-pill cosmic-cat-pill" data-cat="Tools" role="tab" aria-selected="false">
+                  <span class="cat-icon">🛠️</span> Tools
+                </button>
+              </div>
+              <button type="button" class="advanced-filters-trigger cosmic-adv-trigger" id="advFilterToggle">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="4" y1="21" x2="4" y2="14"></line>
+                  <line x1="4" y1="10" x2="4" y2="3"></line>
+                  <line x1="12" y1="21" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12" y2="3"></line>
+                  <line x1="20" y1="21" x2="20" y2="16"></line>
+                  <line x1="20" y1="12" x2="20" y2="3"></line>
+                  <line x1="1" y1="14" x2="7" y2="14"></line>
+                  <line x1="9" y1="8" x2="15" y2="8"></line>
+                  <line x1="17" y1="16" x2="23" y2="16"></line>
+                </svg>
+                <span>Advanced filters</span>
+              </button>
+            </div>
+
+            <!-- Expandable Advanced Filters Box -->
+            <div class="advanced-filters-box cosmic-adv-box hidden" id="advancedFiltersBox">
+              <div class="adv-filter-grid">
+                <div class="adv-group">
+                  <label for="advTime" class="adv-label">Timeframe</label>
+                  <select id="advTime" class="adv-select cosmic-select">
+                    <option value="any">Any time</option>
+                    <option value="month">Past month</option>
+                    <option value="year">Past year</option>
+                  </select>
+                </div>
+                <div class="adv-group">
+                  <label for="advDepth" class="adv-label">Semantic Depth</label>
+                  <select id="advDepth" class="adv-select cosmic-select">
+                    <option value="comprehensive">Comprehensive</option>
+                    <option value="beginner">Beginner-oriented</option>
+                    <option value="expert">Expert / Academic</option>
+                  </select>
+                </div>
+                <div class="adv-group">
+                  <label for="advDomain" class="adv-label">Domain Scope</label>
+                  <select id="advDomain" class="adv-select cosmic-select">
+                    <option value="all">All reputable domains</option>
+                    <option value="edu">Educational (.edu)</option>
+                    <option value="open">Open source / Docs</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 3. Cosmic Intelligence Telemetry Deck (Direct Recreation of Attached Image) -->
+          <div class="explore-telemetry-deck" aria-label="Cosmic Intelligence Telemetry">
+            
+            <!-- CARD 1: INSIGHTS & DATA STREAMS -->
+            <div class="telemetry-card card-insights">
+              <div class="telemetry-card-header">
+                <span class="telemetry-card-title">INSIGHTS</span>
+                <span class="telemetry-card-arrow">›</span>
+              </div>
+              <!-- Neon Dual Sine Waves Chart -->
+              <div class="telemetry-chart-wrap">
+                <svg class="telemetry-wave-svg" viewBox="0 0 240 70" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="waveCyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#00F0FF" />
+                      <stop offset="50%" stop-color="#38BDF8" />
+                      <stop offset="100%" stop-color="#818CF8" />
+                    </linearGradient>
+                    <linearGradient id="wavePurpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#C084FC" />
+                      <stop offset="50%" stop-color="#EC4899" />
+                      <stop offset="100%" stop-color="#F43F5E" />
+                    </linearGradient>
+                    <linearGradient id="areaFillCyan" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.25" />
+                      <stop offset="100%" stop-color="#00F0FF" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <!-- Cyan Wave Path -->
+                  <path d="M0,45 Q30,10 60,35 T120,40 T180,15 T240,30 L240,70 L0,70 Z" fill="url(#areaFillCyan)" />
+                  <path d="M0,45 Q30,10 60,35 T120,40 T180,15 T240,30" fill="none" stroke="url(#waveCyanGrad)" stroke-width="2.5" class="glow-stroke-cyan" />
+                  <!-- Purple Wave Path -->
+                  <path d="M0,60 Q35,30 70,55 T140,25 T210,48 T240,38" fill="none" stroke="url(#wavePurpleGrad)" stroke-width="2.2" class="glow-stroke-purple" />
+                </svg>
+                <div class="telemetry-axis-labels">
+                  <span>9VM</span>
+                  <span>150</span>
+                  <span>200</span>
+                  <span>20M</span>
+                  <span>000</span>
+                </div>
+              </div>
+
+              <!-- Data Streams Progress Meters -->
+              <div class="telemetry-sub-section">
+                <span class="telemetry-sub-label">DATA STREAMS</span>
+                <div class="telemetry-stream-row intent-chip-pill" data-query="discover real-time AI trends and breakthroughs">
+                  <span class="stream-name">AI TRENDS</span>
+                  <div class="stream-bar-track">
+                    <div class="stream-bar-fill bar-cyan" style="width: 92%;"></div>
+                  </div>
+                </div>
+                <div class="telemetry-stream-row intent-chip-pill" data-query="explore neural network algorithms and semantic models">
+                  <span class="stream-name">NEURAL VECTORS</span>
+                  <div class="stream-bar-track">
+                    <div class="stream-bar-fill bar-amber" style="width: 74%;"></div>
+                  </div>
+                </div>
+                <div class="telemetry-stream-row intent-chip-pill" data-query="AI predictions and technological forecasting">
+                  <span class="stream-name">PREDICTIONS</span>
+                  <div class="stream-bar-track">
+                    <div class="stream-bar-fill bar-magenta" style="width: 86%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2: CONTEXT & PREDICTIONS -->
+            <div class="telemetry-card card-context">
+              <div class="telemetry-card-header">
+                <span class="telemetry-card-title">CONTEXT</span>
+                <span class="telemetry-card-arrow">›</span>
+              </div>
+              <!-- Dual Yellow / Blue Waves Chart -->
+              <div class="telemetry-chart-wrap">
+                <svg class="telemetry-wave-svg" viewBox="0 0 240 70" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="waveGoldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#FBBF24" />
+                      <stop offset="60%" stop-color="#F59E0B" />
+                      <stop offset="100%" stop-color="#EF4444" />
+                    </linearGradient>
+                    <linearGradient id="waveBlueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#38BDF8" />
+                      <stop offset="60%" stop-color="#60A5FA" />
+                      <stop offset="100%" stop-color="#A78BFA" />
+                    </linearGradient>
+                  </defs>
+                  <!-- Gold Wave -->
+                  <path d="M0,52 Q40,18 80,42 T160,22 T240,46" fill="none" stroke="url(#waveGoldGrad)" stroke-width="2.5" class="glow-stroke-gold" />
+                  <!-- Sky Blue Wave -->
+                  <path d="M0,38 Q45,62 90,32 T170,50 T240,28" fill="none" stroke="url(#waveBlueGrad)" stroke-width="2.2" class="glow-stroke-blue" />
+                </svg>
+                <div class="telemetry-axis-labels">
+                  <span>MAN</span>
+                  <span>TEN</span>
+                  <span>SEO</span>
+                  <span>250</span>
+                  <span>U00</span>
+                </div>
+              </div>
+
+              <!-- Predictions Status -->
+              <div class="telemetry-sub-section">
+                <span class="telemetry-sub-label">PREDICTIONS</span>
+                <div class="telemetry-stream-row intent-chip-pill" data-query="quantum computing breakthroughs and fusion research">
+                  <span class="stream-name">QUANTUM FORECAST</span>
+                  <div class="stream-bar-track">
+                    <div class="stream-bar-fill bar-cyan" style="width: 88%;"></div>
+                  </div>
+                </div>
+                <div class="telemetry-stream-row intent-chip-pill" data-query="mutation models and genomic algorithms">
+                  <span class="stream-name">MUTATION VECTORS</span>
+                  <div class="stream-bar-track">
+                    <div class="stream-bar-fill bar-gold" style="width: 65%;"></div>
+                  </div>
+                </div>
+                <div class="telemetry-stream-row intent-chip-pill" data-query="market intent analytics and trend forecasting">
+                  <span class="stream-name">MARKET ANALYTICS</span>
+                  <div class="stream-bar-track">
+                    <div class="stream-bar-fill bar-coral" style="width: 78%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 3: TELEMETRY TILES (Weather, News, Calendar, Projects) -->
+            <div class="telemetry-multi-block">
+              <!-- Tile 1: Weather / Orbit Atmosphere -->
+              <div class="telemetry-tile tile-weather intent-chip-pill" data-query="space weather solar storm and satellite telemetry">
+                <div class="tile-top-row">
+                  <span class="tile-label">WEATHER</span>
+                  <span class="tile-icon">☀️</span>
+                </div>
+                <div class="tile-sub">(NEO-ORBIT / TOKYO):</div>
+                <div class="tile-val-row">
+                  <span class="tile-large-stat">22°C</span>
+                  <span class="tile-state">Clear</span>
+                </div>
+              </div>
+
+              <!-- Tile 2: Live Intel / News -->
+              <div class="telemetry-tile tile-news intent-chip-pill" data-query="quantum leap in nuclear fusion clean energy">
+                <div class="tile-top-row">
+                  <span class="tile-label">NEWS</span>
+                  <span class="tile-icon">📰</span>
+                </div>
+                <div class="tile-headline">(QUANTUM LEAP IN FUSION)</div>
+                <div class="tile-pager-dots">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+
+              <!-- Tile 3: Calendar / Event Chrono -->
+              <div class="telemetry-tile tile-calendar intent-chip-pill" data-query="upcoming global AI conferences and research summits">
+                <div class="tile-top-row">
+                  <span class="tile-label">CALENDAR</span>
+                  <span class="tile-icon">📅</span>
+                </div>
+                <div class="tile-sub">AI CONFERENCE</div>
+                <div class="tile-time-val">14:00</div>
+              </div>
+
+              <!-- Tile 4: Active Projects / Missions -->
+              <div class="telemetry-tile tile-projects intent-chip-pill" data-query="collaborative open source AI projects and repositories">
+                <div class="tile-top-row">
+                  <span class="tile-label">PROJECTS</span>
+                  <span class="telemetry-card-arrow">›</span>
+                </div>
+                <div class="tile-metrics-duo">
+                  <div class="metric-item">
+                    <span class="metric-icon">👥 1</span>
+                    <span class="metric-number">39</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-icon">⚛️ 2</span>
+                    <span class="metric-number">74</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 4: DATA GRIDS (Equalizer Spectrum Bars) -->
+            <div class="telemetry-card card-datagrids intent-chip-pill" data-query="multimodal datasets and vector database benchmarks">
+              <div class="telemetry-card-header">
+                <span class="telemetry-card-title">DATA GRIDS</span>
+                <span class="telemetry-card-arrow">›</span>
+              </div>
+              <div class="datagrid-val-badge">14.00</div>
+              <!-- Equalizer Spectrum Bars -->
+              <div class="equalizer-bars-cluster" aria-hidden="true">
+                <span class="eq-bar bar-1"></span>
+                <span class="eq-bar bar-2"></span>
+                <span class="eq-bar bar-3"></span>
+                <span class="eq-bar bar-4"></span>
+                <span class="eq-bar bar-5"></span>
+                <span class="eq-bar bar-6"></span>
+                <span class="eq-bar bar-7"></span>
+                <span class="eq-bar bar-8"></span>
+                <span class="eq-bar bar-9"></span>
+                <span class="eq-bar bar-10"></span>
+                <span class="eq-bar bar-11"></span>
+                <span class="eq-bar bar-12"></span>
+                <span class="eq-bar bar-13"></span>
+                <span class="eq-bar bar-14"></span>
+                <span class="eq-bar bar-15"></span>
+                <span class="eq-bar bar-16"></span>
+              </div>
+            </div>
+
+            <!-- CARD 5: MATRICES / VECTORS -->
+            <div class="telemetry-card card-matrices intent-chip-pill" data-query="matrix decomposition and transformer attention maps">
+              <div class="telemetry-card-header">
+                <span class="telemetry-card-title">MATKS</span>
+                <span class="telemetry-card-arrow">›</span>
+              </div>
+              <div class="telemetry-chart-wrap matrix-chart">
+                <svg class="telemetry-wave-svg" viewBox="0 0 200 60" preserveAspectRatio="none">
+                  <path d="M0,45 Q25,15 50,45 T100,20 T150,48 T200,25" fill="none" stroke="#00F0FF" stroke-width="2.2" class="glow-stroke-cyan" />
+                </svg>
+                <div class="telemetry-axis-labels">
+                  <span>300</span>
+                  <span>200</span>
+                  <span>500</span>
+                  <span>600</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 6: GEMINI / SEMANTIC SEARCH EXPLORE BRANDING -->
+            <div class="telemetry-branding-block" aria-hidden="true">
+              <div class="branding-glitch-row">
+                <span class="branding-gemini">GEMINI AI</span>
+                <span class="branding-search">SEMANTIC SEARCH</span>
+              </div>
+              <div class="branding-explore-bar">
+                <span>EXPLORE</span>
+                <span class="branding-star">✦</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 4. Bottom Three Core Pillars -->
+          <div class="explore-benefits-strip cosmic-benefits-strip">
+            <div class="benefit-col">
+              <div class="benefit-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7DF9FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 18h6"></path>
+                  <path d="M10 22h4"></path>
+                  <path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"></path>
+                </svg>
+              </div>
+              <div class="benefit-text-wrap">
+                <h4 class="benefit-title">Natural Language Intent</h4>
+                <p class="benefit-desc">Describe anything in everyday thoughts</p>
+              </div>
+            </div>
+
+            <div class="benefit-col">
+              <div class="benefit-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </div>
+              <div class="benefit-text-wrap">
+                <h4 class="benefit-title">Cosmic Knowledge Discovery</h4>
+                <p class="benefit-desc">Filtered across authoritative repositories</p>
+              </div>
+            </div>
+
+            <div class="benefit-col">
+              <div class="benefit-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <div class="benefit-text-wrap">
+                <h4 class="benefit-title">Instant Telemetry Navigation</h4>
+                <p class="benefit-desc">Bypass keywords, reach insights directly</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      
+
+      <!-- ======================================================== -->
+      <!-- VIEW 5: INTENT RESULTS SCREEN (Reference Image B — 04)   -->
+      <!-- ======================================================== -->
+      <section class="screen-view" id="viewResults">
+        <div class="results-page-layout">
+          
+          <!-- Top Section: Heading & Intent Detected Chip with Edit Button (Exact match to Screen 04) -->
+          <div class="results-header-block">
+            <h2 class="results-main-title">Results matched to your intent</h2>
+            
+            <div class="intent-summary-bar">
+              <div class="intent-chip-detected" id="intentSummaryChip">
+                <span class="detected-spark">✦</span>
+                <span class="detected-label">Intent detected:</span>
+                <span class="detected-value" id="intentSummaryText">compare reliable budget laptops for university</span>
+              </div>
+              <button type="button" class="edit-intent-btn" id="editIntentBtn" title="Edit this intent">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                <span>Edit intent</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- "Refine your intent" Row with Search Input, Submit Arrow & Quick Filters -->
+          <div class="refine-intent-section">
+            <span class="refine-section-label">Refine your intent</span>
+            <div class="refinement-input-and-filters">
+              
+              <!-- Search refinement input with circular arrow button -->
+              <form class="refinement-input-wrap search-bar" id="refineSearchForm">
+                <span class="refine-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#53627B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </span>
+                <input 
+                  type="text" 
+                  id="refineQueryInput" 
+                  class="refine-text-input" 
+                  placeholder="Add more details to refine results..."
+                  aria-label="Add more details to refine results"
+                />
+                <button type="submit" class="refine-submit-circle-btn" id="refineSubmitBtn" aria-label="Refine results">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </form>
+
+              <!-- Quick Filters Row matching Screen 04 -->
+              <div class="quick-filter-pills" id="quickFilterPills">
+                <span class="qfilter-label">Quick filters:</span>
+                <button type="button" class="qfilter-btn" data-filter="Budget">Budget</button>
+                <button type="button" class="qfilter-btn" data-filter="Student">Student use</button>
+                <button type="button" class="qfilter-btn" data-filter="Battery">Battery life</button>
+                
+                <!-- More Dropdown -->
+                <div class="more-dropdown-wrap">
+                  <button type="button" class="more-dropdown-trigger" id="moreFiltersTrigger">
+                    <span>More</span>
+                    <span class="more-caret">▾</span>
+                  </button>
+                  <div class="more-dropdown-menu hidden" id="moreDropdownMenu">
+                    <button type="button" class="more-item" data-filter="HighRated">★ 4.5+ Rating</button>
+                    <button type="button" class="more-item" data-filter="Recent">⚡ Updated 2026</button>
+                    <button type="button" class="more-item" data-filter="Reset">↺ Clear all filters</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Results Header Row: "Top results (12 found)" & "Sort by: Relevance ▾" -->
+          <div class="results-toolbar-row">
+            <span class="results-count-text">Top results (12 found)</span>
+            <div class="results-sort-wrap">
+              <label for="resultsSortSelect" class="sort-label">Sort by:</label>
+              <select id="resultsSortSelect" class="sort-dropdown-select" aria-label="Sort results list">
+                <option value="relevance" selected>Relevance ▾</option>
+                <option value="rating">Highest Rated</option>
+                <option value="newest">Newest First</option>
+                <option value="alpha">A – Z</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Vertically Stacked White Result Cards List (Exact match to Reference Image B Screen 04) -->
+          <div class="results-card-stack" id="resultsCardStack" aria-live="polite">
+            <!-- Dynamically populated by script.js with laptop & contextual cards -->
+          </div>
+
+          <!-- Bottom Prompt to Return or Explore Other Intents -->
+          <div class="results-bottom-banner">
+            <span class="rb-text">Didn't find what you need? Describe a different intent or explore suggested topics.</span>
+            <button type="button" class="rb-explore-btn" id="resultsNewSearchBtn">
+              <span>New Intent Search</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- VIEW 6: USER PROFILE, SEARCH HISTORY & PREFERENCES       -->
+      <!-- ======================================================== -->
+      <section class="screen-view" id="viewProfile" aria-labelledby="profileHeading">
+        <div class="profile-page-shell">
+
+          <!-- 1. Top Bar & Breadcrumb Navigation -->
+          <div class="profile-top-bar">
+            <button type="button" class="profile-back-action-btn" id="profileBackBtn" aria-label="Go back to previous screen">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back</span>
+            </button>
+            <div class="profile-breadcrumb">
+              <button type="button" class="bc-link" id="bcHomeBtn">Home</button>
+              <span class="bc-sep" aria-hidden="true">/</span>
+              <span class="bc-current" id="profileHeading">My Profile</span>
+            </div>
+          </div>
+
+          <!-- 2. Dynamic Time-Based Greeting Hero Card (Matching Reference Design) -->
+          <div class="profile-greeting-hero" id="profileGreetingHero">
+            <div class="greet-hero-left">
+              <!-- Celestial Ring & Dynamic Icon (Moon / Sun / Sunrise / Sunset) -->
+              <div class="greet-icon-ring" id="profileGreetIconWrap" aria-hidden="true">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+              </div>
+
+              <!-- Greeting Typography -->
+              <div class="greet-details">
+                <h1 class="profile-greet-title" id="profileGreetHeading">
+                  Good Night, <span class="profile-name-highlight" id="profileGreetName">Milind</span>
+                </h1>
+                <p class="profile-greet-quote" id="profileGreetQuote">
+                  Still awake? That makes two of us!
+                </p>
+                <p class="profile-greet-date" id="profileGreetDate">
+                  Wednesday, September 3, 2025
+                </p>
+              </div>
+            </div>
+
+            <div class="greet-hero-right">
+              <!-- Quick Overview / ID Badge Action Button -->
+              <button type="button" class="greet-action-badge-btn" id="profileQuickActionBtn" aria-label="Open Saved Discoveries Drawer" title="Open Saved Discoveries Drawer">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+                  <line x1="7" y1="9" x2="17" y2="9"></line>
+                  <line x1="7" y1="13" x2="13" y2="13"></line>
+                  <line x1="7" y1="17" x2="9" y2="17"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Metrics Row 1: 4 Sleek Horizontal Cards -->
+          <div class="profile-metrics-row-1">
+            <!-- Card 1: Searches -->
+            <div class="metric-card-sleek" id="metricCardSearches">
+              <div class="metric-icon-square icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div class="metric-sleek-body">
+                <span class="metric-sleek-label">Searches</span>
+                <span class="metric-sleek-val" id="statTotalSearches">4</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Time Saved -->
+            <div class="metric-card-sleek" id="metricCardTimeSaved">
+              <div class="metric-icon-square icon-blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div class="metric-sleek-body">
+                <span class="metric-sleek-label">Time Saved</span>
+                <span class="metric-sleek-val" id="statTimeSaved">5.99 <span class="val-unit">hrs</span></span>
+              </div>
+            </div>
+
+            <!-- Card 3: Success Rate -->
+            <div class="metric-card-sleek" id="metricCardSuccessRate">
+              <div class="metric-icon-square icon-blue-cyan">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <div class="metric-sleek-body">
+                <span class="metric-sleek-label">Success Rate</span>
+                <span class="metric-sleek-val" id="statSuccessRate">100.0%</span>
+              </div>
+            </div>
+
+            <!-- Card 4: Engagement -->
+            <div class="metric-card-sleek" id="metricCardEngagement">
+              <div class="metric-icon-square icon-blue-indigo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+              </div>
+              <div class="metric-sleek-body">
+                <span class="metric-sleek-label">Engagement</span>
+                <span class="metric-sleek-val" id="statEngagement">1.88%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Metrics Row 2: 3 Status / Progress Cards -->
+          <div class="profile-metrics-row-2">
+            <!-- Card 1: Applied / Intents -->
+            <div class="progress-metric-card card-applied">
+              <div class="pm-top-row">
+                <span class="pm-title">Applied</span>
+                <div class="pm-badge-circle badge-blue" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="pm-val-wrap">
+                <span class="pm-large-num" id="statAppliedNum">4</span>
+                <span class="pm-subtext">Applications submitted</span>
+              </div>
+              <div class="pm-bar-track">
+                <div class="pm-bar-fill fill-blue" style="width: 80%;"></div>
+              </div>
+            </div>
+
+            <!-- Card 2: Interviewed / Saved Discoveries -->
+            <div class="progress-metric-card card-interviewed">
+              <div class="pm-top-row">
+                <span class="pm-title">Interviewed</span>
+                <div class="pm-badge-circle badge-green" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="pm-val-wrap">
+                <span class="pm-large-num" id="statTotalSaved">0</span>
+                <span class="pm-subtext">Interview invites</span>
+              </div>
+              <div class="pm-bar-track">
+                <div class="pm-bar-fill fill-green" style="width: 45%;"></div>
+              </div>
+            </div>
+
+            <!-- Card 3: Rejected / Filtered -->
+            <div class="progress-metric-card card-rejected">
+              <div class="pm-top-row">
+                <span class="pm-title">Rejected</span>
+                <div class="pm-badge-circle badge-red" aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </div>
+              </div>
+              <div class="pm-val-wrap">
+                <span class="pm-large-num" id="statRefinedNum">0</span>
+                <span class="pm-subtext">Applications declined</span>
+              </div>
+              <div class="pm-bar-track">
+                <div class="pm-bar-fill fill-red" style="width: 20%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Main Content Dashboard: Two-Column Layout (Left: Trend + Tabs, Right: Status + Quick Links) -->
+          <div class="profile-two-column-layout">
+            <!-- LEFT MAIN COLUMN -->
+            <div class="profile-col-main">
+
+              <!-- Activity Trend Card (Direct Match of Reference Image) -->
+              <div class="activity-trend-card">
+                <div class="trend-card-header">
+                  <h3 class="trend-card-title">Activity Trend</h3>
+                  <div class="trend-time-segmented-pill" role="group" aria-label="Activity timeframe">
+                    <button type="button" class="trend-seg-btn active" id="btnTrendWeekly">Weekly</button>
+                    <button type="button" class="trend-seg-btn" id="btnTrendMonthly">Monthly</button>
+                  </div>
+                </div>
+
+                <div class="trend-graph-wrap">
+                  <div class="trend-y-axis">
+                    <span>3.0</span>
+                    <span>2.5</span>
+                    <span>2.0</span>
+                    <span>1.5</span>
+                    <span class="axis-y-label">Activity Count</span>
+                  </div>
+
+                  <div class="trend-svg-container">
+                    <svg class="trend-line-chart-svg" viewBox="0 0 600 160" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="trendLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stop-color="#3B82F6" />
+                          <stop offset="70%" stop-color="#6366F1" />
+                          <stop offset="100%" stop-color="#A855F7" />
+                        </linearGradient>
+                        <linearGradient id="trendAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                          <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.25" />
+                          <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.0" />
+                        </linearGradient>
+                      </defs>
+                      <!-- Horizontal Grid Lines -->
+                      <line x1="0" y1="20" x2="600" y2="20" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+                      <line x1="0" y1="60" x2="600" y2="60" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+                      <line x1="0" y1="100" x2="600" y2="100" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+                      <line x1="0" y1="140" x2="600" y2="140" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1" />
+                      <!-- Area Fill -->
+                      <path id="trendAreaPath" d="M 20 20 L 580 110 L 580 160 L 20 160 Z" fill="url(#trendAreaGrad)" />
+                      <!-- Line Stroke -->
+                      <path id="trendLinePath" d="M 20 20 L 580 110" fill="none" stroke="url(#trendLineGrad)" stroke-width="3" stroke-linecap="round" />
+                      <!-- Glowing Data Nodes -->
+                      <circle id="trendNode1" cx="20" cy="20" r="5" fill="#3B82F6" stroke="#FFFFFF" stroke-width="2" />
+                      <circle id="trendNode2" cx="580" cy="110" r="5" fill="#8B5CF6" stroke="#FFFFFF" stroke-width="2" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+          <!-- 4. Tabbed Layout (Overview, History, Saved, Settings, Preferences) -->
+          <div class="profile-tabs-wrapper">
+            <nav class="profile-tab-bar" role="tablist" aria-label="Profile navigation sections">
+              <button type="button" class="profile-tab active" role="tab" id="tabOverview" aria-selected="true" aria-controls="panelOverview" data-tab="overview">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                <span>Overview</span>
+              </button>
+              <button type="button" class="profile-tab" role="tab" id="tabHistory" aria-selected="false" aria-controls="panelHistory" data-tab="history">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span>Search History</span>
+                <span class="tab-counter-badge" id="historyTabCount">0</span>
+              </button>
+              <button type="button" class="profile-tab" role="tab" id="tabSaved" aria-selected="false" aria-controls="panelSaved" data-tab="saved">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Saved Discoveries</span>
+                <span class="tab-counter-badge" id="savedTabCount">0</span>
+              </button>
+              <button type="button" class="profile-tab" role="tab" id="tabSettings" aria-selected="false" aria-controls="panelSettings" data-tab="settings">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <span>Account Settings</span>
+              </button>
+              <button type="button" class="profile-tab" role="tab" id="tabPreferences" aria-selected="false" aria-controls="panelPreferences" data-tab="preferences">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+                <span>Preferences</span>
+              </button>
+            </nav>
+
+            <!-- TAB 1: OVERVIEW -->
+            <div class="profile-tab-panel active-panel" id="panelOverview" role="tabpanel" aria-labelledby="tabOverview">
+              <!-- Recent Searches Section -->
+              <div class="panel-section-box">
+                <div class="section-box-header">
+                  <div class="section-title-wrap">
+                    <h3 class="section-box-title">Recent Searches</h3>
+                    <p class="section-box-desc">Searches performed across SemanticNav</p>
+                  </div>
+                  <button type="button" class="btn-text-link" id="overviewViewAllHistoryBtn">View All History →</button>
+                </div>
+                <div class="overview-searches-list" id="overviewRecentSearches">
+                  <!-- Dynamically populated or empty state -->
+                </div>
+              </div>
+
+              <!-- Saved Discoveries Preview Section -->
+              <div class="panel-section-box">
+                <div class="section-box-header">
+                  <div class="section-title-wrap">
+                    <h3 class="section-box-title">Saved Discoveries</h3>
+                    <p class="section-box-desc">Bookmarked resources and websites ready for instant access</p>
+                  </div>
+                  <button type="button" class="btn-text-link" id="overviewViewAllSavedBtn">View All Saved →</button>
+                </div>
+                <div class="overview-saved-grid" id="overviewSavedPreview">
+                  <!-- Dynamically populated or empty state -->
+                </div>
+              </div>
+
+              <!-- Account & Local Storage Transparency Banner -->
+              <div class="panel-info-banner">
+                <div class="banner-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+                <div class="banner-content">
+                  <h4 class="banner-title">Browser-Local Storage</h4>
+                  <p class="banner-desc">SemanticNav operates without tracking servers or external analytics. Your profile updates, search history, and saved bookmarks reside safely in your browser storage and are never sent to external servers.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: SEARCH HISTORY -->
+            <div class="profile-tab-panel" id="panelHistory" role="tabpanel" aria-labelledby="tabHistory">
+              <div class="panel-section-box">
+                <!-- Toolbar: Filter bar + Clear History Button -->
+                <div class="history-toolbar">
+                  <div class="history-search-input-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="historyFilterInput" class="history-filter-field" placeholder="Filter search history by keyword..." />
+                  </div>
+
+                  <div class="history-category-filter" id="historyCategoryFilterPills">
+                    <button type="button" class="hist-cat-pill active" data-cat="all">All</button>
+                    <button type="button" class="hist-cat-pill" data-cat="Web">Web</button>
+                    <button type="button" class="hist-cat-pill" data-cat="Articles">Articles</button>
+                    <button type="button" class="hist-cat-pill" data-cat="Videos">Videos</button>
+                    <button type="button" class="hist-cat-pill" data-cat="Tools">Tools</button>
+                  </div>
+
+                  <button type="button" class="btn-clear-danger" id="btnClearHistoryBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="3 6 5 6 21 6"></polyline>
+                      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    <span>Clear History</span>
+                  </button>
+                </div>
+
+                <!-- History Entries List -->
+                <div class="history-entries-list" id="historyEntriesList">
+                  <!-- Dynamically populated or empty state -->
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 3: SAVED DISCOVERIES -->
+            <div class="profile-tab-panel" id="panelSaved" role="tabpanel" aria-labelledby="tabSaved">
+              <div class="panel-section-box">
+                <div class="saved-tab-toolbar">
+                  <div class="saved-search-input-wrap">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="savedFilterInput" class="saved-filter-field" placeholder="Search saved websites or domains..." />
+                  </div>
+                  <span class="saved-count-indicator" id="savedListCountIndicator">0 items saved</span>
+                </div>
+
+                <div class="saved-cards-grid" id="profileSavedCardsGrid">
+                  <!-- Dynamically populated or empty state -->
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 4: ACCOUNT SETTINGS -->
+            <div class="profile-tab-panel" id="panelSettings" role="tabpanel" aria-labelledby="tabSettings">
+              <div class="settings-two-col-grid">
+                
+                <!-- Col 1: Profile Information Editor -->
+                <div class="panel-section-box">
+                  <div class="section-box-header">
+                    <div class="section-title-wrap">
+                      <h3 class="section-box-title">Profile Information</h3>
+                      <p class="section-box-desc">Update your personal account credentials and avatar initials</p>
+                    </div>
+                  </div>
+
+                  <form id="settingsProfileForm" class="settings-form">
+                    <div class="form-field-group">
+                      <label for="settingsNameInput" class="form-field-label">Full Name</label>
+                      <div class="form-input-wrap">
+                        <input type="text" id="settingsNameInput" class="form-field-input" placeholder="Your name" required />
+                      </div>
+                      <span class="field-error-hint" id="settingsNameError"></span>
+                    </div>
+
+                    <div class="form-field-group">
+                      <label for="settingsEmailInput" class="form-field-label">Email Address</label>
+                      <div class="form-input-wrap">
+                        <input type="email" id="settingsEmailInput" class="form-field-input" placeholder="Your email" required />
+                      </div>
+                      <span class="form-field-note">Used for your local session display</span>
+                    </div>
+
+                    <div class="form-field-group">
+                      <label for="settingsAvatarInput" class="form-field-label">Avatar Initials</label>
+                      <div class="form-input-wrap">
+                        <input type="text" id="settingsAvatarInput" class="form-field-input" placeholder="MK" maxlength="3" />
+                      </div>
+                      <span class="form-field-note">1 to 3 uppercase letters displayed in badges</span>
+                    </div>
+
+                    <div class="settings-form-actions">
+                      <button type="submit" class="btn-submit-action" id="btnSaveSettingsProfile">Save Profile Changes</button>
+                      <span class="save-status-msg" id="settingsSaveStatus"></span>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- Col 2: Account Actions & Privacy -->
+                <div class="panel-section-box">
+                  <div class="section-box-header">
+                    <div class="section-title-wrap">
+                      <h3 class="section-box-title">Data & Session Actions</h3>
+                      <p class="section-box-desc">Manage your local data export, reset options and session state</p>
+                    </div>
+                  </div>
+
+                  <div class="account-actions-list">
+                    <div class="action-item-row">
+                      <div class="action-item-info">
+                        <span class="action-item-title">Export Personal Data</span>
+                        <span class="action-item-desc">Download a backup JSON file containing your search history and saved bookmarks.</span>
+                      </div>
+                      <button type="button" class="btn-outline-action" id="btnExportData">Export JSON</button>
+                    </div>
+
+                    <div class="action-item-row">
+                      <div class="action-item-info">
+                        <span class="action-item-title">Clear Search History</span>
+                        <span class="action-item-desc">Permanently remove all recorded search queries from browser storage.</span>
+                      </div>
+                      <button type="button" class="btn-outline-danger" id="btnSettingsClearHistory">Clear History</button>
+                    </div>
+
+                    <div class="action-item-row">
+                      <div class="action-item-info">
+                        <span class="action-item-title">Sign Out</span>
+                        <span class="action-item-desc">End your current session. (Stored bookmarks and history remain saved locally).</span>
+                      </div>
+                      <button type="button" class="btn-danger-confirm" id="btnSettingsSignOut">Sign Out</button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- TAB 5: PREFERENCES -->
+            <div class="profile-tab-panel" id="panelPreferences" role="tabpanel" aria-labelledby="tabPreferences">
+              <div class="panel-section-box">
+                <div class="section-box-header">
+                  <div class="section-title-wrap">
+                    <h3 class="section-box-title">Application Preferences</h3>
+                    <p class="section-box-desc">Customize theme styling, default discovery scopes, and history logging</p>
+                  </div>
+                </div>
+
+                <div class="preferences-group-list">
+                  <!-- Preference 1: Theme Switcher -->
+                  <div class="pref-item-card">
+                    <div class="pref-item-header">
+                      <div class="pref-title-wrap">
+                        <span class="pref-title">Visual Theme</span>
+                        <span class="pref-desc">Choose between the dark celestial midnight theme and the warm ivory parchment theme.</span>
+                      </div>
+                      <span class="pref-badge-current" id="prefCurrentThemeBadge">Dark Celestial</span>
+                    </div>
+
+                    <div class="theme-choice-selector">
+                      <label class="theme-choice-option" id="themeOptionDark">
+                        <input type="radio" name="profileThemeSelect" value="dark" checked />
+                        <div class="theme-choice-box dark-preview-box">
+                          <span class="theme-dot dot-dark"></span>
+                          <span class="theme-name">Celestial Midnight (Dark)</span>
+                        </div>
+                      </label>
+                      <label class="theme-choice-option" id="themeOptionLight">
+                        <input type="radio" name="profileThemeSelect" value="light" />
+                        <div class="theme-choice-box light-preview-box">
+                          <span class="theme-dot dot-light"></span>
+                          <span class="theme-name">Warm Ivory (Light)</span>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Preference 2: Default Category -->
+                  <div class="pref-item-card">
+                    <div class="pref-item-header">
+                      <div class="pref-title-wrap">
+                        <span class="pref-title">Default Discovery Category</span>
+                        <span class="pref-desc">Select the default format filter applied when submitting new natural language intents.</span>
+                      </div>
+                    </div>
+                    <div class="pref-control-row">
+                      <select id="prefDefaultCategorySelect" class="form-field-select pref-select">
+                        <option value="Web">Web (All Formats)</option>
+                        <option value="Articles">Articles & Research</option>
+                        <option value="Videos">Videos & Tutorials</option>
+                        <option value="Tools">Tools & Utilities</option>
+                      </select>
+                      <button type="button" class="btn-outline-action" id="btnSavePrefCategory">Apply Category</button>
+                    </div>
+                  </div>
+
+                  <!-- Preference 3: History Logging Toggle -->
+                  <div class="pref-item-card">
+                    <div class="pref-item-header">
+                      <div class="pref-title-wrap">
+                        <span class="pref-title">Search History Logging</span>
+                        <span class="pref-desc">Record queries in browser storage to populate your Search History and Overview statistics.</span>
+                      </div>
+                      <label class="switch-toggle-label">
+                        <input type="checkbox" id="prefRecordHistoryToggle" checked />
+                        <span class="switch-toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+            </div><!-- /.profile-col-main -->
+
+            <!-- RIGHT SIDEBAR COLUMN (Profile Status & Quick Links) -->
+            <div class="profile-col-sidebar">
+              <!-- Profile Status Card -->
+              <div class="sidebar-status-card">
+                <div class="sidebar-status-header">
+                  <h3 class="sidebar-card-title">Profile Status</h3>
+                  <span class="status-pill-badge" id="profileStatusBadge">Active</span>
+                </div>
+
+                <div class="sidebar-user-block">
+                  <div class="sidebar-avatar-circle" id="profileAvatarLarge">MK</div>
+                  <div class="sidebar-user-meta">
+                    <span class="sidebar-user-name" id="profileDisplayName">Milind Kumar</span>
+                    <span class="sidebar-user-email" id="profileDisplayEmail">milind.kumar@example.com</span>
+                    <span class="sidebar-user-tier" id="profileStatusLabel">Pro Member</span>
+                  </div>
+                </div>
+
+                <div class="profile-completion-box">
+                  <div class="completion-top">
+                    <span class="comp-label">Profile Strength</span>
+                    <span class="comp-percent">94%</span>
+                  </div>
+                  <div class="comp-bar-track">
+                    <div class="comp-bar-fill" style="width: 94%;"></div>
+                  </div>
+                </div>
+
+                <button type="button" class="btn-sidebar-complete" id="btnEditProfileTrigger">
+                  Complete Profile
+                </button>
+              </div>
+
+              <!-- Quick Links Card -->
+              <div class="sidebar-quicklinks-card">
+                <h3 class="sidebar-card-title">Quick Links</h3>
+                <div class="quicklinks-list">
+                  <button type="button" class="quicklink-item" id="qlSavedBtn">
+                    <span class="ql-icon">🔖</span>
+                    <span class="ql-text">My Saved Discoveries</span>
+                    <span class="ql-arrow">›</span>
+                  </button>
+                  <button type="button" class="quicklink-item" id="qlHistoryBtn">
+                    <span class="ql-icon">🕒</span>
+                    <span class="ql-text">Search History Log</span>
+                    <span class="ql-arrow">›</span>
+                  </button>
+                  <button type="button" class="quicklink-item" id="qlExploreBtn">
+                    <span class="ql-icon">🌌</span>
+                    <span class="ql-text">Explore Universe</span>
+                    <span class="ql-arrow">›</span>
+                  </button>
+                  <button type="button" class="quicklink-item" id="qlSettingsBtn">
+                    <span class="ql-icon">⚙️</span>
+                    <span class="ql-text">Account Settings</span>
+                    <span class="ql-arrow">›</span>
+                  </button>
+                </div>
+              </div>
+            </div><!-- /.profile-col-sidebar -->
+
+          </div><!-- /.profile-two-column-layout -->
+
+        </div><!-- /.profile-page-shell -->
+      </section>
+      
+
+    <!-- MASTER ORNATE FOOTER (Positioned inside frame, visible on all screens, immediately above bottom ribbons) -->
+      <footer class="semantic-footer" id="masterFooter">
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <span class="brand-text">
+              <span class="brand-semantic">Semantic</span><span class="brand-nav">Nav</span>
+            </span>
+            <span class="footer-tagline">Understand intent. Discover the web.</span>
+          </div>
+          <div class="footer-links">
+            <button type="button" class="footer-link" data-switch="home">Home</button>
+            <button type="button" class="footer-link" data-switch="explore">Explore</button>
+            <button type="button" class="footer-link" data-switch="login">Sign In</button>
+            <button type="button" class="footer-link" data-switch="signup">Create Account</button>
+          </div>
+          <div class="footer-copy">
+            © 2026 SemanticNav. Designed by Milingenix.
+          </div>
+        </div>
+      </footer>
+
+    </div><!-- /.ornate-frame -->
+  </div><!-- /.canvas-wrapper -->
+
+  <!-- SAVED BOOKMARKS & USER PROFILE DRAWER / MODAL -->
+  <div class="app-drawer-overlay hidden" id="profileDrawer" aria-hidden="true">
+    <div class="app-drawer-content" role="dialog" aria-labelledby="drawerTitle">
+      <div class="drawer-header">
+        <h3 id="drawerTitle" class="drawer-title">Account & Saved Discoveries</h3>
+        <button type="button" class="drawer-close-btn" id="closeDrawerBtn" aria-label="Close drawer">✕</button>
+      </div>
+      <div class="drawer-body">
+        
+        <div class="user-profile-badge">
+          <div class="user-avatar-circle" id="drawerAvatar">M</div>
+          <div class="user-meta">
+            <div class="user-name-display" id="drawerUserName">Guest Explorer</div>
+            <div class="user-email-display" id="drawerUserEmail">Not signed in</div>
+          </div>
+          <button type="button" class="drawer-sign-btn" id="drawerSignToggle">Sign In</button>
+        </div>
+
+        <div class="drawer-section-heading">
+          <span>SAVED WEBSITES</span>
+          <span class="saved-count-pill" id="savedCountBadge">0 saved</span>
+        </div>
+
+        <div class="saved-items-list" id="savedItemsList">
+          <div class="empty-saved-msg">No saved discoveries yet. Click the bookmark icon on any result card to save it here.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FORGOT PASSWORD DEMO MODAL -->
+  <div class="app-modal-overlay hidden" id="forgotModal" aria-hidden="true">
+    <div class="app-modal-box" role="dialog" aria-labelledby="forgotTitle">
+      <button type="button" class="modal-x-close" id="closeForgotModal">✕</button>
+      <h3 id="forgotTitle" class="modal-heading">Reset your password</h3>
+      <p class="modal-p">Enter your email address and we'll send a demo recovery link to regain access to SemanticNav.</p>
+      <form id="forgotForm">
+        <div class="form-field-group">
+          <label for="forgotEmail" class="form-field-label">Email address</label>
+          <div class="form-input-wrap">
+            <input type="email" id="forgotEmail" class="form-text-input" placeholder="you@example.com" required />
+          </div>
+        </div>
+        <button type="submit" class="auth-primary-btn">Send recovery link →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ACCESSIBLE CONFIRMATION MODAL -->
+  <div class="app-modal-overlay hidden" id="confirmModal" aria-hidden="true">
+    <div class="app-modal-box confirm-modal-box" role="dialog" aria-labelledby="confirmModalTitle">
+      <h3 id="confirmModalTitle" class="modal-heading">Confirm Action</h3>
+      <p id="confirmModalMessage" class="modal-p">Are you sure you want to proceed?</p>
+      <div class="modal-actions-row">
+        <button type="button" class="btn-modal-cancel" id="btnCancelConfirm">Cancel</button>
+        <button type="button" class="btn-modal-danger" id="btnAcceptConfirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT PROFILE MODAL -->
+  <div class="app-modal-overlay hidden" id="editProfileModal" aria-hidden="true">
+    <div class="app-modal-box edit-profile-modal-box" role="dialog" aria-labelledby="editProfileTitle">
+      <button type="button" class="modal-x-close" id="closeEditProfileModal" aria-label="Close edit profile dialog">✕</button>
+      <h3 id="editProfileTitle" class="modal-heading">Edit Profile</h3>
+      <p class="modal-p">Update your personal account credentials and avatar initials.</p>
+
+      <form id="editProfileModalForm">
+        <div class="form-field-group">
+          <label for="modalEditName" class="form-field-label">Full Name</label>
+          <div class="form-input-wrap">
+            <input type="text" id="modalEditName" class="form-field-input" placeholder="Your name" required />
+          </div>
+          <span class="field-error-hint" id="modalEditNameError"></span>
+        </div>
+
+        <div class="form-field-group">
+          <label for="modalEditAvatar" class="form-field-label">Avatar Initials (1-3 characters)</label>
+          <div class="form-input-wrap">
+            <input type="text" id="modalEditAvatar" class="form-field-input" placeholder="MK" maxlength="3" />
+          </div>
+          <span class="form-field-note">Displayed in top navigation and profile card</span>
+        </div>
+
+        <div class="form-field-group">
+          <label for="modalEditCategory" class="form-field-label">Preferred Discovery Category</label>
+          <select id="modalEditCategory" class="form-field-select">
+            <option value="Web">Web (All Formats)</option>
+            <option value="Articles">Articles & Research</option>
+            <option value="Videos">Videos & Tutorials</option>
+            <option value="Tools">Tools & Utilities</option>
+          </select>
+        </div>
+
+        <div class="modal-actions-row">
+          <button type="button" class="btn-modal-cancel" id="btnCancelEditModal">Cancel</button>
+          <button type="submit" class="auth-primary-btn" id="btnSubmitEditModal">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FLOATING INTERACTIVE TOAST NOTIFICATION -->
+  <div class="toast-notification" id="appToast" role="status" aria-live="polite">
+    <span class="toast-spark">✦</span>
+    <span class="toast-message" id="toastMessage">Welcome to SemanticNav</span>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script src="script.js"></script>
+</body>
+</html>
